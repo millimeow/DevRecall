@@ -33,9 +33,13 @@ DevRecall aims to recover technical decisions from public open-source discussion
 3. **Evidence-backed search:** Answer questions with references to the original discussions.
 4. **Code and PR context:** Link decisions to relevant code and highlight relevant past decisions for new pull requests.
 
+## Architecture v2 implementation status
+
+The current implementation follows `CODEX_IMPLEMENTATION_PLAN.md`: FastAPI, PostgreSQL repository/decision index, MongoDB detailed records, and React/Vite/Tailwind. Provider and model selection is pending; production v2 returns explicit unavailable states and does not generate placeholder decisions. The model records below describe historical executions only, not the current v2 configuration.
+
 ## AI Models Used and Justification
 
-The application uses a configurable local open-weight model. Actual executions and validation results are preserved in `examples/`; source-quote verification is separate from model interpretation quality.
+The historical application used a configurable local open-weight model. Actual executions and validation results are preserved in `examples/`; source-quote verification is separate from model interpretation quality.
 
 | AI Model | How It Is Used | Reason for Selecting It |
 | --- | --- | --- |
@@ -44,7 +48,7 @@ The application uses a configurable local open-weight model. Actual executions a
 
 **Model execution method:** Ollama HTTP API, runtime version `0.40.13`. Configured model digest: `357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b`. The development verification used a temporary runtime and model directory under `/private/tmp/devrecall-ollama`; normal installation instructions are in README.md.
 
-**Application stack:** React.js with Next.js 16 App Router frontend; Express.js 5 on Node.js backend; JavaScript throughout application source. SQLite and the Ollama model integration are retained. Historical example outputs remain labeled; new JavaScript-runtime outputs use the `node_` filename prefix.
+**Historical application stack:** React.js with Next.js 16 App Router frontend; Express.js 5 on Node.js backend; JavaScript throughout application source. SQLite and the Ollama model integration are retained. Historical example outputs remain labeled; new JavaScript-runtime outputs use the `node_` filename prefix.
 
 ## Hackathon Details
 

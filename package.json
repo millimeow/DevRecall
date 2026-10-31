@@ -2,17 +2,26 @@
   "name": "devrecall",
   "version": "0.2.0",
   "private": true,
-  "workspaces": ["backend", "frontend"],
-  "engines": { "node": ">=22.13.0" },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "dev": "concurrently -k -n API,WEB \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "npm run dev --workspace backend",
+    "dev:backend": "python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload",
     "dev:frontend": "npm run dev --workspace frontend",
-    "start:backend": "npm start --workspace backend",
+    "start:backend": "python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000",
     "start:frontend": "npm start --workspace frontend",
     "build": "npm run build --workspace frontend",
-    "test": "npm test --workspace backend",
-    "evaluate": "node backend/scripts/evaluate-discussion.js"
+    "test": "python -m pytest backend/tests",
+    "test:legacy": "npm test --workspace backend",
+    "evaluate:legacy": "node backend/scripts/evaluate-discussion.js",
+    "evaluate": "python backend/scripts/evaluate_discussion.py"
   },
-  "devDependencies": { "concurrently": "^9.2.1" }
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

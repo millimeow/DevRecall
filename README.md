@@ -1,175 +1,140 @@
 # DevRecall
 
-**Every decision has a reason. Never lose it.**
+Every decision has a reason. Never lose it.
 
-DevRecall recovers engineering choices, rejected alternatives and source evidence from public discussions. Built for Problem 06, Hacktoberfest 2026 — Hack Day Sonipat.
+DevRecall recovers engineering decisions, rejected alternatives and their original evidence from public discussions. Built for Hacktoberfest 2026 Problem 06. The [v2 implementation plan](CODEX_IMPLEMENTATION_PLAN.md) is authoritative; it supersedes the original PRD's SQLite and model defaults.
 
-## Stack
+## Current implementation
 
-- **Frontend:** React.js + Next.js 16 App Router, JavaScript, existing dark responsive interface.
-- **Backend:** Express.js 5 on Node.js, JavaScript ES modules.
-- **Storage:** SQLite through Node's built-in SQLite API.
-- **Inference:** configurable local Ollama open-weight model; default `qwen2.5:3b`.
-- **Validation/testing:** Ajv JSON Schema and Node's built-in test runner.
+- FastAPI with PostgreSQL/SQLAlchemy/Alembic for GitHub numeric repository IDs, decision UUID relationships, jobs and source checkpoints.
+- MongoDB for decisions, rejected alternatives, reasoning, evidence, original message versions and analysis runs. A separate `decision_revisions` collection preserves history without growing one document indefinitely.
+- SQL foreign keys, source/topic uniqueness, and a partial unique index preventing overlapping repository scans. Titles are not decision identities.
+- Retryable SQL/Mongo write protocol, readiness checks, repository-scoped cached reads, and an explicit reconciliation command. Prior published revisions remain readable during interrupted reanalysis.
+- Public GitHub metadata resolution and bounded issue/PR/comment/review ingestion. Existing known aliases load cache without GitHub or inference calls. A newly encountered alias requires GitHub resolution; an existing numeric ID keeps its decisions after rename/transfer.
+- Durable polling worker, initial jobs, manual-only sync, source hash deduplication, and explicit continuation after partial scans. Read APIs never enqueue jobs.
+- React + Vite + Tailwind UI for repository input, job progress, cached decisions, evidence, keyword search, scoped Q&A and exact-path PR context.
+- Separate transient PEP-discussion evaluation API/UI/CLI. It never fetches a final PEP or fabricates a repository ID.
 
-Python and Vite are no longer application dependencies. The existing SQLite schema is retained; upgrading does not reset discussions, message IDs, runs or decision payloads.
+**AI provider/model remain unselected.** Production has an `AIProvider` protocol and an unavailable implementation only. Blank configuration reports `model_not_configured`; configured names without an implemented adapter report `adapter_not_implemented`. No production test provider or placeholder decisions are shipped. Repository registration and cached reads work without a model; new scans and sync require a real adapter. Actual extraction, model-dependent Q&A, long-discussion model reconciliation and a fresh blind evaluation are therefore not operational yet.
 
-## Install and run
+## Setup
 
-Requires **Node.js 22.13+** (tested with 22.20.0), npm, and [Ollama](https://ollama.com/download). Run all commands from the repository root.
+Requires Python 3.11+ (tested with 3.14), Node 22.13+, PostgreSQL 18 and MongoDB 8.0. Use local installations or the optional Compose file:
 
 ```sh
+docker compose up -d
+```
+
+Compose uses local-only development credentials. Set root `.env` from `.env.example`, replacing the database placeholders. With Compose:
+
+```dotenv
+POSTGRES_DATABASE_URL=postgresql+psycopg://devrecall:local_dev_only@127.0.0.1:5432/devrecall
+MONGODB_URI=mongodb://127.0.0.1:27017
+MONGODB_DATABASE=devrecall
+GITHUB_TOKEN=
+AI_PROVIDER=
+AI_MODEL=
+AI_BASE_URL=
+AI_API_KEY=
+API_BASE_URL=http://127.0.0.1:8000
+```
+
+GitHub token is optional for public API access. No vendor/model is selected automatically. Do not put credentials in Git. Keep the API on loopback: this is a single-user tool without authentication.
+
+From the repository root:
+
+```sh
+python3 -m venv backend/.venv
+source backend/.venv/bin/activate
+pip install -r backend/requirements.lock.txt
+pip install --no-deps -e backend
 npm ci
-cp .env.example .env
-```
-
-Start Ollama separately, then install the configured model:
-
-```sh
-ollama serve
-```
-
-```sh
-ollama pull qwen2.5:3b
-```
-
-Start both application servers:
-
-```sh
+python -m alembic -c backend/alembic.ini upgrade head
+python -m app.db.manage indexes
 npm run dev
 ```
 
-Open **http://127.0.0.1:5173**. Next.js serves the React app and proxies `/api/*` to Express at **http://127.0.0.1:8000**.
-
-Run the servers separately if preferred:
+Open http://127.0.0.1:5173. Vite proxies `/api` to FastAPI on port 8000. Start the durable worker separately, with the virtual environment activated:
 
 ```sh
-npm run dev:backend
-npm run dev:frontend
+python -m app.workers.ingestion_worker
 ```
 
-Production:
+It polls explicitly queued jobs only; it never schedules automatic synchronization. `--once` handles at most one queued/recoverable job. A PostgreSQL advisory lock serializes worker processes, allowing safe recovery of an interrupted running job. Batches are capped at 50 sources; partial/failed jobs require another explicit **Sync Repository** action to resume. Do not expose Vite or these databases publicly. For a frontend build, use `npm run build`; deployment of the resulting `frontend/dist` needs a same-origin `/api` reverse proxy.
+
+## Use
+
+1. Enter a public repository URL. Known aliases return saved results immediately. New repositories resolve the permanent GitHub ID and register; without a model, analysis remains explicitly blocked.
+2. Once a selected, compliant open-weight provider is implemented/configured, new repositories enqueue initial analysis. Existing repositories require **Sync Repository**.
+3. Inspect decision alternatives, reasons, uncertainty, exact quotations and original messages. Quote presence does not prove consensus or semantic entailment.
+4. Search saved repository content, ask an evidence-grounded question, or supply changed paths for advisory historical context. Nothing is posted to upstream GitHub repositories.
+5. Use **Discussion evaluation** for pasted text or JSON messages. Results are transient and include the original supplied messages. Do not include the corresponding final PEP.
+
+Evaluation CLI (requires an actual configured adapter; otherwise exits without writing an output):
 
 ```sh
-npm run build
-npm run start:backend
-# In another terminal:
-npm run start:frontend
+npm run evaluate -- --input examples/public_discussion.json --output /tmp/devrecall-evaluation.json
 ```
 
-Express serves the API; Next.js serves the frontend in both development and production. Keep both on loopback: this is a single-user local tool without authentication.
+## Databases and failure recovery
 
-Configuration in the root `.env`:
+`repositories.repo_id` is GitHub's numeric ID. `decisions.decision_id` is a UUID reused for `(repo_id, source_key, normalized topic_key)`; Mongo `decisions._id` uses the same UUID string. Source/topic keys must be stable across title changes. The worker passes existing topic mappings to the provider; duplicate candidate keys fail explicitly rather than silently merging different topics.
 
-```dotenv
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=qwen2.5:3b
-MODEL_TIMEOUT=240
-PORT=8000
-API_BASE_URL=http://127.0.0.1:8000
-# DEVRECALL_DB=/absolute/path/to/devrecall.db
-```
-
-The default database remains `backend/devrecall.db` and is ignored by Git. `MODEL_TIMEOUT` is seconds per inference request. Changing API_BASE_URL requires restarting development or rebuilding production; other configuration changes require restarting Express. Next.js reads the same root environment file for its API proxy. The built-in SQLite API is experimental in the tested Node 22 release and emits a warning; it is covered by persistence tests.
-
-## Implemented workflow
-
-1. Paste a public discussion, import structured JSON messages, or import a public GitHub issue/PR.
-2. Analyze with the configured local Ollama model. The app never substitutes fixtures for inference.
-3. Inspect chosen approaches, alternatives, reasons, status and immutable original-message citations.
-4. Search decisions or ask questions grounded in stored evidence and relevant original messages.
-5. Export JSON/Markdown or match changed paths to explicit code references.
-
-Imports preserve speaker/URL attribution when supplied. Raw paste is one honestly unattributed message. Failed inference preserves the source and previous successful results. Rerun after connecting/installing the model.
-
-Extraction chunks on message boundaries, uses one general pass and focused objection-message passes, validates schema output with one repair retry, verifies exact quotes and conservatively merges matching technical questions. Outcome promotion requires explicit English outcome vocabulary and a literal approach name in the quote. Unsupported claims remain uncertain. Reasons are preserved as source excerpts; code references survive only when literally quoted.
-
-All API paths remain under `/api`:
-
-| Endpoint | Purpose |
-| --- | --- |
-| GET /health | API/database health and model availability |
-| GET/POST /discussions | List/import discussions |
-| GET /discussions/:id | Original messages and extraction runs |
-| POST /discussions/:id/analyze | Real inference and evidence validation |
-| GET /discussions/:id/decisions | Stored decisions |
-| GET /decisions/:id | Decision detail |
-| GET /search?q=... | Keyword search |
-| POST /ask | Grounded answer or abstention |
-| GET /discussions/:id/export?format=json | JSON or Markdown export |
-| POST /github/import | Public issue/PR description and issue comments |
-| POST /pr-context | Exact cited-path matches |
-
-## Verify
+New decisions commit a thin `pending` SQL row, write the Mongo revision and current document with majority acknowledgement, then publish the SQL revision as `ready`. Failures retain `error`/pending state; published earlier revisions remain available. Read APIs verify document ownership and revision. Missing documents return 503, never synthetic detail. Reconciliation does not delete orphaned evidence:
 
 ```sh
-npm test
+python -m app.db.manage reconcile
+python -m app.db.manage reconcile --repair
+```
+
+Repair publishes already-written pending revisions. Missing published documents without a pending snapshot are reported for operator restoration. Messages are stored separately, with content-versioned IDs; previous evidence stays inspectable after GitHub edits. Checkpoints and source hashes advance only after successful source publication. A failed source may have individual verified decisions already committed, but its job is never falsely marked complete.
+
+Manual sync traverses public source metadata and fetches source content to detect edits, then invokes inference only for changed hashes. It currently favors correctness over API efficiency: it does not use a timestamp-only incremental shortcut, which could miss review changes. Comment/review endpoints are bounded to 20 pages each. Incomplete sources are not analyzed. Pagination limits and rate limits produce visible failed/partial jobs.
+
+## Tests
+
+Activate the virtual environment first. Offline tests run without databases; integration tests explicitly skip when database URLs are absent:
+
+```sh
+python -m pytest backend/tests -q
+npm run test:legacy
 npm run build
 ```
 
-**Migration validation: 15 JavaScript tests passed and the Next.js production build passed.** Tests use actual Express HTTP requests and SQLite, replacing the LLM adapter at the inference boundary. Coverage includes quote checking, uncertainty, schema repair, disagreement, search, exports, persistence, model errors, concurrent analysis, original-message retrieval and cited answers. Adapter transport failure tests use an isolated fake HTTP transport and do not claim real inference.
-
-GitHub Actions installs from the root lockfile and runs these same checks. A remote CI result is not claimed without a configured remote.
-
-Real inference, with the application servers and Ollama running:
+For full validation, provision an **isolated disposable PostgreSQL database whose name ends in `_test`**. The integration suite truncates its four application tables. Mongo tests create/drop uniquely named temporary databases.
 
 ```sh
-npm run evaluate -- --input examples/synthetic_discussion.json --output examples/node_synthetic_output.json
-npm run evaluate -- --input examples/public_discussion.json --output examples/node_sample_output.json
+export TEST_POSTGRES_DATABASE_URL='postgresql+psycopg://USER:PASSWORD@127.0.0.1:5432/devrecall_test'
+export TEST_MONGODB_URI='mongodb://127.0.0.1:27017'
+REQUIRE_DB_TESTS=1 python -m pytest backend/tests -q
 ```
 
-The evaluator calls the Express API, stores the discussion/run and saves untouched actual output with model digest and Node runtime metadata. It does not mock the model. The synthetic input is clearly labeled. Original `sample_output.json`, `synthetic_output.json`, `sample_answer.json` and `attempts/` are historical outputs from the earlier implementation, not JavaScript-run claims. See [migration verification](examples/JAVASCRIPT_MIGRATION.md) and [reproduction instructions](examples/HOW_TO_REPRODUCE.md).
+CI provisions PostgreSQL/MongoDB services, requires integration tests (missing configuration fails), and runs the frontend build plus preserved legacy evaluation regression. Tests use synthetic providers and simulated GitHub transport, with real database servers; they are not evidence of actual model accuracy or a live crawl.
 
-## Files
+## Layout
 
 ```text
-package.json, package-lock.json     npm workspaces and shared commands
-backend/
-  package.json
-  src/
-    server.js, app.js               Express lifecycle and routes
-    config.js, errors.js            Environment and API errors
-    database.js                    Compatible SQLite schema/storage
-    schemas.js                     Input and model-output JSON schemas
-    llm.js                         Real Ollama adapter
-    extraction.js                  Chunking and approach extraction
-    evidence.js                    Source validation and uncertainty
-    retrieval.js                   Search and grounded Q&A
-    github.js                      Public GitHub import
-  test/pipeline.test.js             JavaScript unit/integration tests
-  scripts/evaluate-discussion.js    Actual inference evaluator
-frontend/
-  package.json, next.config.mjs
-  app/layout.jsx, app/page.jsx      Next.js App Router entry points
-  src/App.jsx                      React client workspace
-  src/api.js, src/styles.css        API client and visual system
-examples/                          Public/synthetic inputs and real outputs
-.github/                           CI and PR template
-HACKATHON.md, LICENSE, .env.example
-PRODUCT.md, DESIGN.md              Product and visual context
+backend/app/
+  main.py, config.py, schemas.py, evidence.py
+  db/             SQL models, real connections, Mongo indexes, administration
+  services/       persistence saga, GitHub client, ingestion, AI protocol
+  workers/        durable polling worker
+backend/alembic/  versioned PostgreSQL migration
+backend/tests/    offline and real-database integration tests
+backend/src/      preserved legacy Express/SQLite evaluation implementation
+backend/test/     preserved legacy regression tests
+frontend/src/     React repository/evaluation UI, existing design system
+examples/         historical real outputs and labeled synthetic inputs
 ```
 
-## Practical limits
+Existing SQLite data is not automatically migrated: old discussions have no trustworthy GitHub repository ownership. The old evaluator and outputs are preserved under `backend/src`, `backend/scripts/evaluate-discussion.js`, and `examples/`; `npm run evaluate:legacy` targets that old API only. They are not v2 output claims. See [legacy setup](docs/LEGACY_README.md). Do not run both APIs on the same port.
 
-- Quote matching proves source presence, **not semantic entailment or consensus**. Interpretations and answers still require human review.
-- The small 3B model has limited rejected-alternative recall on the public Python case. The conservative guard keeps questionable outcomes uncertain. No full organizer benchmark pass is claimed; see the [historical evaluation](examples/EVALUATION.md).
-- Input bounds: 200,000 characters, 500 messages, 60,000 characters per structured message. Analysis requires each message to fit 22,000 characters. Focused passes prioritize at most eight objection messages per chunk; implicit and non-English objections can be missed.
-- Question retrieval is lexical. Broad wording can retrieve unrelated context; the answer validator abstains on invalid citations.
-- GitHub import is public and unauthenticated, capped at 400 issue comments. Inline PR reviews, attachments, private repositories and automatic PR diff retrieval are not included.
-- Code matching is exact, without semantic compatibility or rename detection. Nothing is posted to upstream repositories.
-- No auth, webhooks, vector search or public cloud deployment. Your Ollama endpoint must be reachable by Express.
-- The UI loads optional DM Sans from Google Fonts and falls back to system fonts offline. Refreshing returns to Overview, preserving SQLite data.
+## Remaining limitations and compliance
 
-## Event and AI disclosure
-
-The initial commit `6c9d3b9` contains only the original HACKATHON.md. Work remains on feature branch `feat/devrecall-mvp`; no additional work was committed directly to main. No Git remote was configured, so no public repository, PR merge, event submission or remote CI pass is claimed.
-
-Extraction/answering use Qwen2.5 3B through Ollama; actual model/version details are in HACKATHON.md and run metadata. Coding assistant: OpenAI Codex (exact underlying coding-model version not exposed).
-
-The development Ollama binary/models remain under `/private/tmp/devrecall-ollama`. While those files exist, restart that temporary runtime with:
-
-```sh
-OLLAMA_MODELS=/private/tmp/devrecall-ollama/models OLLAMA_HOST=127.0.0.1:11434 /private/tmp/devrecall-ollama/ollama serve
-```
-
-Install Ollama normally for persistent use. Fixtures are never automatically seeded.
+- A compliant real provider/model must be selected and integrated; this includes bounded chunking/reconciliation, actual inference validation and fresh blind PEP evaluation. Setting environment names alone cannot enable inference.
+- Pasted evaluation currently supports transient results only, not attachment to a selected real repository.
+- Deleted/retracted decisions are retained as historical records; automatic source-wide supersession is not yet implemented. A model must maintain stable topic keys; semantic identity cannot be proven by the persistence layer.
+- A source exceeding endpoint bounds needs a higher bounded limit or a smaller discussion import. A resumed scan uses stable created-order pages; source deletion during pagination can shift offsets. A subsequent full manual sync is the recovery path.
+- Search is bounded keyword matching, not vector search. PR context uses supplied exact paths, without automatic PR diff fetching or rename tracking. GitHub Discussions/forums need separate adapters.
+- The initial commit `6c9d3b9` contains only `HACKATHON.md`. Work remains on `feat/devrecall-mvp`; no history rewrite or direct-to-main commit was performed. No Git remote is configured, so public visibility, event submission, PR creation and remote CI success cannot be claimed.
+- Historic Qwen/Ollama outputs remain intact and labeled. No new AI output or benchmark success is claimed for v2. Coding assistance: OpenAI Codex.

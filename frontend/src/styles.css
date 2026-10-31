@@ -9,3 +9,18 @@
 
 .mobile-model-status{display:none}.chosen.uncertain-choice{background:#1c211d;color:#b2beb6}.chosen.uncertain-choice span{color:#a0aaa3}
 @media(max-width:760px){.mobile-model-status{display:inline-flex;align-items:center;gap:6px;padding:6px 0;font-size:9px;color:#bfd2c5}.topbar-right .local-badge{display:none}.topbar-right{gap:12px}}
+
+/* Repository workflow extends the established dark source-archive interface. */
+.v2-repository-form>label,.v2-evaluation>label{display:block;margin:20px 0 8px;color:var(--text);font-size:13px}
+.v2-input-row,.v2-repo-header,.v2-pagination{display:flex;gap:12px;align-items:center}
+.v2-input-row input{min-width:0;flex:1}.v2-input-row button{flex-shrink:0}
+.v2-repo-header{justify-content:space-between;margin:32px 0;padding:22px 0;border-block:1px solid var(--border)}
+.v2-repo-header h2{overflow-wrap:anywhere}.v2-repo-header p{font-size:12px;margin-top:7px}
+.v2-health{color:var(--muted);font-size:12px}.v2-browser{display:grid;grid-template-columns:minmax(190px,1fr) minmax(0,2fr);gap:30px}
+.v2-list{border-right:1px solid var(--border);padding-right:22px}.v2-pagination{margin-top:20px;justify-content:space-between}
+.v2-decision{min-width:0;padding-block:18px}.v2-decision .detail-title h2{font-size:22px}.v2-decision p{overflow-wrap:anywhere}
+.v2-evaluation{max-width:760px}.v2-evaluation button{margin-top:20px}.v2-evaluation .v2-checkbox{display:flex;align-items:center;gap:10px}
+.v2-checkbox input{width:auto}.v2-evaluation-results{margin-top:40px}.v2-source-body{font-family:inherit;white-space:pre-wrap;overflow-wrap:anywhere;margin-block:20px;max-height:500px;overflow:auto}
+.source-messages form{margin-block:20px}.source-messages textarea{display:block;margin:12px 0}
+@media(max-width:760px){.v2-input-row,.v2-repo-header{align-items:stretch;flex-direction:column}.v2-browser{grid-template-columns:1fr}.v2-list{border-right:0;padding-right:0}.v2-input-row button{min-height:44px}.v2-health{font-size:10px}}
+.v2-repository-form + .empty-library{margin-top:28px}
