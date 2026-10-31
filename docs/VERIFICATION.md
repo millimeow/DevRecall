@@ -32,6 +32,8 @@ The application resolved real Flask metadata through GitHub REST after the share
 
 A real application add/queue/index/poll scan of `millimeow/DevRecall` (ID **1440959880**) completed with zero PRs at capture time. The actual persisted result is in `examples/live-index-output.json`. This empty-corpus success does not claim real PR extraction or a real AI answer; after a new PR is created the next Sync is needed.
 
+After PR #1 was created, a real authenticated read-only worker scan in isolated temporary SQLite fetched **1 PR** and its complete available conversation endpoints (no comments existed), saved the exact PR URL/author/body, then correctly stopped **Partial / AI not configured**. See `examples/live-pr-ingestion-output.json`. It used the existing Git credential in memory only; no token was persisted and no model configuration was changed. The running app's unauthenticated Sync separately hit the shared GitHub rate limit and saved its scheduled retry.
+
 No model is selected or running for this application, and no GitHub token is configured in the new application. Therefore no successful actual-model decision extraction, answer, or PEP evaluation is claimed. The health response in `examples/live-health-output.json` records this explicitly. A real source-linked successful answer remains a release/demo limitation until a model is chosen and run.
 
 Screenshots, official event PDF and the pack's referenced architecture/API/test/demo documents were missing. New implementation documentation was written; pixel-exact screenshot fidelity and full official evaluation coverage cannot be claimed. PR-only ingestion intentionally excludes the broader PEP/forum inputs from the product UI. A synthetic test-only harness exists.
@@ -41,3 +43,5 @@ The indexer stops visibly partial on a persistent inaccessible endpoint; it does
 ## Git and event history
 
 New local initial commit **c4833b4** contains only `HACKATHON.md`. Implementation is on **feat/devrecall-v3**, targeted at **millimeow/DevRecall**. Existing target history includes a compliant HACKATHON-only root **6c9d3b9**, and a second inherited root **b744502** containing LICENSE/README. That inherited root does not follow the supplied first-commit rule; it is disclosed and preserved. The CI history audit verifies a compliant baseline and warns on inherited noncompliant roots. It does not rewrite them or pretend the event requirement has been retroactively repaired.
+
+The feature branch was pushed and [PR #1](https://github.com/millimeow/DevRecall/pull/1) opened against `main`; no merge to main was performed. GitHub's feature-branch [CI run](https://github.com/millimeow/DevRecall/actions/runs/41252057344) passed. PR-specific CI is checked separately on the PR.

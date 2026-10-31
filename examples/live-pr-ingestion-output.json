@@ -1,0 +1,59 @@
+{
+  "captured_at": "2026-10-31T23:22:45.208Z",
+  "execution": "Real GitHub REST client and indexing worker, isolated temporary SQLite, existing Git credential in memory only; AI intentionally unconfigured.",
+  "repository": {
+    "id": 1440959880,
+    "owner": "millimeow",
+    "name": "DevRecall",
+    "full_name": "millimeow/DevRecall",
+    "html_url": "https://github.com/millimeow/DevRecall",
+    "description": null,
+    "default_branch": "main",
+    "is_demo": 0,
+    "status": "partial",
+    "total_prs_known": 1,
+    "last_indexed_at": null,
+    "last_sync_at": "2026-10-31 23:22:45",
+    "last_error": "PR evidence is saved. Configure AI_PROVIDER and AI_MODEL in .env, restart, and Resume to extract decisions.",
+    "created_at": "2026-10-31 23:22:43",
+    "updated_at": "2026-10-31 23:22:43"
+  },
+  "summary": {
+    "decisions": 0,
+    "rejected_removed": 0,
+    "prs_scanned": 1,
+    "prs_analyzed": 0,
+    "comments_scanned": 0,
+    "comments_analyzed": 0
+  },
+  "job": {
+    "id": "dcd84301-ce35-4661-826f-84e2ca2ddb24",
+    "repo_id": 1440959880,
+    "mode": "full",
+    "status": "partial",
+    "phase": "ai_not_configured",
+    "last_pr_page": 1,
+    "prs_discovered": 1,
+    "prs_fetched": 1,
+    "prs_analyzed": 0,
+    "comments_fetched": 0,
+    "comments_analyzed": 0,
+    "error_message": "PR evidence is saved. Configure AI_PROVIDER and AI_MODEL in .env, restart, and Resume to extract decisions.",
+    "retry_after": null,
+    "started_at": "2026-10-31 23:22:43",
+    "finished_at": null,
+    "updated_at": "2026-10-31 23:22:45",
+    "discovery_done": 1
+  },
+  "sources": [
+    {
+      "id": "1440959880:pr_body:5102471249",
+      "repo_id": 1440959880,
+      "pr_number": 1,
+      "kind": "pr_body",
+      "html_url": "https://github.com/millimeow/DevRecall/pull/1",
+      "author_login": "millimeow",
+      "excerpt": "## Problem and resulting behavior\n\nThe previous application uses superseded database/source workflows. This implementation follows PRD v3: a public GitHub repository URL starts a durable PR-only scan, stores every accessible PR conversation page in SQLite, extracts decisions with an explicitly configured open-weight model, and answers repository-scoped questions with validated GitHub citations.\n\nReact/Vite/Tailwind dashboard includes Flask/Django/CPython as unanalyzed links, URL verification, ac"
+    }
+  ]
+}

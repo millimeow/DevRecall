@@ -22,6 +22,8 @@ No running model was configured. Therefore a successful real-repository decision
 
 The application also added `https://github.com/millimeow/DevRecall`, resolved its real GitHub ID **1440959880**, queued a durable job and completed PR enumeration. At capture time this repository had **zero PRs**; [live-index-output.json](live-index-output.json) records the genuine completed empty-corpus job and zero DB metrics. No inference was needed for an empty corpus. This proves the real add/queue/poll/database path, not PR-conversation extraction or AI quality. A subsequent implementation PR changes that upstream snapshot and requires Sync.
 
+After [implementation PR #1](https://github.com/millimeow/DevRecall/pull/1) was created, a second real scan used the actual GitHub client/worker in an isolated temporary SQLite database, authenticated through the existing Git credential in memory. [live-pr-ingestion-output.json](live-pr-ingestion-output.json) records **1 PR fetched**, its exact GitHub PR URL, real author and stored body excerpt, all conversation endpoints fetched (no comments existed), and the expected **Partial / AI not configured** result. This authenticated smoke test did not save a token or configure the running app; the app's separate unauthenticated Sync hit the shared rate limit and retained its retry checkpoint.
+
 After configuring credentials/model, add the same URL at `/api/v1/repositories`, poll its returned job, then ask a specific question using the real returned numeric repo ID:
 
 ```json
