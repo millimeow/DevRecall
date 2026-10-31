@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "purpose": "Test-only PEP-style discussion, explicitly excluding a final PEP. This is not a real GitHub conversation.",
+  "discussion": [
+    {
+      "id": "proposal",
+      "author": "proposer",
+      "text": "Proposal: add a process-wide mutable cache to accelerate plugin discovery."
+    },
+    {
+      "id": "review",
+      "author": "reviewer",
+      "text": "I reject the process-wide mutable cache because it leaks tenant data between independent interpreters. Consider an interpreter-local cache instead."
+    },
+    {
+      "id": "resolution",
+      "author": "maintainer",
+      "text": "Agreed: reject the process-wide cache due to tenant isolation. We will use an interpreter-local cache, with explicit invalidation on plugin reload."
+    }
+  ],
+  "expected": {
+    "rejected_alternative": "process-wide",
+    "reason_terms": ["tenant", "isolation"],
+    "accepted_alternative": "interpreter-local"
+  }
+}

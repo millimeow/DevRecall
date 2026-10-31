@@ -1,0 +1,752 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T23:18:13.873314+00:00",
+  "title": "Design System: DevRecall",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(0.1500 0.1953 283.48)",
+          "oklch(0.2643 0.1953 283.48)",
+          "oklch(0.3786 0.1953 283.48)",
+          "oklch(0.4929 0.1953 283.48)",
+          "oklch(0.6071 0.1953 283.48)",
+          "oklch(0.7214 0.1953 283.48)",
+          "oklch(0.8357 0.1953 283.48)",
+          "oklch(0.9500 0.1953 283.48)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Accent Hover",
+        "tonalRamp": [
+          "oklch(0.1500 0.1943 282.47)",
+          "oklch(0.2643 0.1943 282.47)",
+          "oklch(0.3786 0.1943 282.47)",
+          "oklch(0.4929 0.1943 282.47)",
+          "oklch(0.6071 0.1943 282.47)",
+          "oklch(0.7214 0.1943 282.47)",
+          "oklch(0.8357 0.1943 282.47)",
+          "oklch(0.9500 0.1943 282.47)"
+        ]
+      },
+      "navy": {
+        "role": "neutral",
+        "displayName": "Navy",
+        "tonalRamp": [
+          "oklch(0.1500 0.0383 271.66)",
+          "oklch(0.2643 0.0383 271.66)",
+          "oklch(0.3786 0.0383 271.66)",
+          "oklch(0.4929 0.0383 271.66)",
+          "oklch(0.6071 0.0383 271.66)",
+          "oklch(0.7214 0.0383 271.66)",
+          "oklch(0.8357 0.0383 271.66)",
+          "oklch(0.9500 0.0383 271.66)"
+        ]
+      },
+      "dashboard": {
+        "role": "neutral",
+        "displayName": "Dashboard",
+        "tonalRamp": [
+          "oklch(0.1500 0.0054 274.97)",
+          "oklch(0.2643 0.0054 274.97)",
+          "oklch(0.3786 0.0054 274.97)",
+          "oklch(0.4929 0.0054 274.97)",
+          "oklch(0.6071 0.0054 274.97)",
+          "oklch(0.7214 0.0054 274.97)",
+          "oklch(0.8357 0.0054 274.97)",
+          "oklch(0.9500 0.0054 274.97)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0000 0.00)",
+          "oklch(0.2643 0.0000 0.00)",
+          "oklch(0.3786 0.0000 0.00)",
+          "oklch(0.4929 0.0000 0.00)",
+          "oklch(0.6071 0.0000 0.00)",
+          "oklch(0.7214 0.0000 0.00)",
+          "oklch(0.8357 0.0000 0.00)",
+          "oklch(0.9500 0.0000 0.00)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0356 272.65)",
+          "oklch(0.2643 0.0356 272.65)",
+          "oklch(0.3786 0.0356 272.65)",
+          "oklch(0.4929 0.0356 272.65)",
+          "oklch(0.6071 0.0356 272.65)",
+          "oklch(0.7214 0.0356 272.65)",
+          "oklch(0.8357 0.0356 272.65)",
+          "oklch(0.9500 0.0356 272.65)"
+        ]
+      },
+      "support-text": {
+        "role": "neutral",
+        "displayName": "Support Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0349 266.91)",
+          "oklch(0.2643 0.0349 266.91)",
+          "oklch(0.3786 0.0349 266.91)",
+          "oklch(0.4929 0.0349 266.91)",
+          "oklch(0.6071 0.0349 266.91)",
+          "oklch(0.7214 0.0349 266.91)",
+          "oklch(0.8357 0.0349 266.91)",
+          "oklch(0.9500 0.0349 266.91)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(0.1500 0.0321 268.13)",
+          "oklch(0.2643 0.0321 268.13)",
+          "oklch(0.3786 0.0321 268.13)",
+          "oklch(0.4929 0.0321 268.13)",
+          "oklch(0.6071 0.0321 268.13)",
+          "oklch(0.7214 0.0321 268.13)",
+          "oklch(0.8357 0.0321 268.13)",
+          "oklch(0.9500 0.0321 268.13)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(0.1500 0.0097 273.35)",
+          "oklch(0.2643 0.0097 273.35)",
+          "oklch(0.3786 0.0097 273.35)",
+          "oklch(0.4929 0.0097 273.35)",
+          "oklch(0.6071 0.0097 273.35)",
+          "oklch(0.7214 0.0097 273.35)",
+          "oklch(0.8357 0.0097 273.35)",
+          "oklch(0.9500 0.0097 273.35)"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(0.1500 0.1496 288.49)",
+          "oklch(0.2643 0.1496 288.49)",
+          "oklch(0.3786 0.1496 288.49)",
+          "oklch(0.4929 0.1496 288.49)",
+          "oklch(0.6071 0.1496 288.49)",
+          "oklch(0.7214 0.1496 288.49)",
+          "oklch(0.8357 0.1496 288.49)",
+          "oklch(0.9500 0.1496 288.49)"
+        ]
+      },
+      "secondary-text": {
+        "role": "neutral",
+        "displayName": "Secondary Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0368 271.13)",
+          "oklch(0.2643 0.0368 271.13)",
+          "oklch(0.3786 0.0368 271.13)",
+          "oklch(0.4929 0.0368 271.13)",
+          "oklch(0.6071 0.0368 271.13)",
+          "oklch(0.7214 0.0368 271.13)",
+          "oklch(0.8357 0.0368 271.13)",
+          "oklch(0.9500 0.0368 271.13)"
+        ]
+      },
+      "secondary-border": {
+        "role": "neutral",
+        "displayName": "Secondary Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0126 271.28)",
+          "oklch(0.2643 0.0126 271.28)",
+          "oklch(0.3786 0.0126 271.28)",
+          "oklch(0.4929 0.0126 271.28)",
+          "oklch(0.6071 0.0126 271.28)",
+          "oklch(0.7214 0.0126 271.28)",
+          "oklch(0.8357 0.0126 271.28)",
+          "oklch(0.9500 0.0126 271.28)"
+        ]
+      },
+      "secondary-hover": {
+        "role": "neutral",
+        "displayName": "Secondary Hover",
+        "tonalRamp": [
+          "oklch(0.1500 0.0174 293.14)",
+          "oklch(0.2643 0.0174 293.14)",
+          "oklch(0.3786 0.0174 293.14)",
+          "oklch(0.4929 0.0174 293.14)",
+          "oklch(0.6071 0.0174 293.14)",
+          "oklch(0.7214 0.0174 293.14)",
+          "oklch(0.8357 0.0174 293.14)",
+          "oklch(0.9500 0.0174 293.14)"
+        ]
+      },
+      "secondary-hover-border": {
+        "role": "neutral",
+        "displayName": "Secondary Hover Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0644 292.91)",
+          "oklch(0.2643 0.0644 292.91)",
+          "oklch(0.3786 0.0644 292.91)",
+          "oklch(0.4929 0.0644 292.91)",
+          "oklch(0.6071 0.0644 292.91)",
+          "oklch(0.7214 0.0644 292.91)",
+          "oklch(0.8357 0.0644 292.91)",
+          "oklch(0.9500 0.0644 292.91)"
+        ]
+      },
+      "nav-text": {
+        "role": "neutral",
+        "displayName": "Nav Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0381 271.95)",
+          "oklch(0.2643 0.0381 271.95)",
+          "oklch(0.3786 0.0381 271.95)",
+          "oklch(0.4929 0.0381 271.95)",
+          "oklch(0.6071 0.0381 271.95)",
+          "oklch(0.7214 0.0381 271.95)",
+          "oklch(0.8357 0.0381 271.95)",
+          "oklch(0.9500 0.0381 271.95)"
+        ]
+      },
+      "nav-hover": {
+        "role": "neutral",
+        "displayName": "Nav Hover",
+        "tonalRamp": [
+          "oklch(0.1500 0.0436 272.11)",
+          "oklch(0.2643 0.0436 272.11)",
+          "oklch(0.3786 0.0436 272.11)",
+          "oklch(0.4929 0.0436 272.11)",
+          "oklch(0.6071 0.0436 272.11)",
+          "oklch(0.7214 0.0436 272.11)",
+          "oklch(0.8357 0.0436 272.11)",
+          "oklch(0.9500 0.0436 272.11)"
+        ]
+      },
+      "nav-active": {
+        "role": "neutral",
+        "displayName": "Nav Active",
+        "tonalRamp": [
+          "oklch(0.1500 0.0620 288.71)",
+          "oklch(0.2643 0.0620 288.71)",
+          "oklch(0.3786 0.0620 288.71)",
+          "oklch(0.4929 0.0620 288.71)",
+          "oklch(0.6071 0.0620 288.71)",
+          "oklch(0.7214 0.0620 288.71)",
+          "oklch(0.8357 0.0620 288.71)",
+          "oklch(0.9500 0.0620 288.71)"
+        ]
+      },
+      "nav-active-text": {
+        "role": "neutral",
+        "displayName": "Nav Active Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0704 292.06)",
+          "oklch(0.2643 0.0704 292.06)",
+          "oklch(0.3786 0.0704 292.06)",
+          "oklch(0.4929 0.0704 292.06)",
+          "oklch(0.6071 0.0704 292.06)",
+          "oklch(0.7214 0.0704 292.06)",
+          "oklch(0.8357 0.0704 292.06)",
+          "oklch(0.9500 0.0704 292.06)"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field",
+        "tonalRamp": [
+          "oklch(0.1500 0.0026 286.35)",
+          "oklch(0.2643 0.0026 286.35)",
+          "oklch(0.3786 0.0026 286.35)",
+          "oklch(0.4929 0.0026 286.35)",
+          "oklch(0.6071 0.0026 286.35)",
+          "oklch(0.7214 0.0026 286.35)",
+          "oklch(0.8357 0.0026 286.35)",
+          "oklch(0.9500 0.0026 286.35)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Field Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0151 277.83)",
+          "oklch(0.2643 0.0151 277.83)",
+          "oklch(0.3786 0.0151 277.83)",
+          "oklch(0.4929 0.0151 277.83)",
+          "oklch(0.6071 0.0151 277.83)",
+          "oklch(0.7214 0.0151 277.83)",
+          "oklch(0.8357 0.0151 277.83)",
+          "oklch(0.9500 0.0151 277.83)"
+        ]
+      },
+      "field-focus": {
+        "role": "neutral",
+        "displayName": "Field Focus",
+        "tonalRamp": [
+          "oklch(0.1500 0.1092 293.14)",
+          "oklch(0.2643 0.1092 293.14)",
+          "oklch(0.3786 0.1092 293.14)",
+          "oklch(0.4929 0.1092 293.14)",
+          "oklch(0.6071 0.1092 293.14)",
+          "oklch(0.7214 0.1092 293.14)",
+          "oklch(0.8357 0.1092 293.14)",
+          "oklch(0.9500 0.1092 293.14)"
+        ]
+      },
+      "field-text": {
+        "role": "neutral",
+        "displayName": "Field Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0376 273.51)",
+          "oklch(0.2643 0.0376 273.51)",
+          "oklch(0.3786 0.0376 273.51)",
+          "oklch(0.4929 0.0376 273.51)",
+          "oklch(0.6071 0.0376 273.51)",
+          "oklch(0.7214 0.0376 273.51)",
+          "oklch(0.8357 0.0376 273.51)",
+          "oklch(0.9500 0.0376 273.51)"
+        ]
+      },
+      "field-invalid": {
+        "role": "neutral",
+        "displayName": "Field Invalid",
+        "tonalRamp": [
+          "oklch(0.1500 0.0866 7.31)",
+          "oklch(0.2643 0.0866 7.31)",
+          "oklch(0.3786 0.0866 7.31)",
+          "oklch(0.4929 0.0866 7.31)",
+          "oklch(0.6071 0.0866 7.31)",
+          "oklch(0.7214 0.0866 7.31)",
+          "oklch(0.8357 0.0866 7.31)",
+          "oklch(0.9500 0.0866 7.31)"
+        ]
+      },
+      "ready": {
+        "role": "secondary",
+        "displayName": "Ready",
+        "tonalRamp": [
+          "oklch(0.1500 0.0954 162.85)",
+          "oklch(0.2643 0.0954 162.85)",
+          "oklch(0.3786 0.0954 162.85)",
+          "oklch(0.4929 0.0954 162.85)",
+          "oklch(0.6071 0.0954 162.85)",
+          "oklch(0.7214 0.0954 162.85)",
+          "oklch(0.8357 0.0954 162.85)",
+          "oklch(0.9500 0.0954 162.85)"
+        ]
+      },
+      "ready-surface": {
+        "role": "secondary",
+        "displayName": "Ready Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0149 164.73)",
+          "oklch(0.2643 0.0149 164.73)",
+          "oklch(0.3786 0.0149 164.73)",
+          "oklch(0.4929 0.0149 164.73)",
+          "oklch(0.6071 0.0149 164.73)",
+          "oklch(0.7214 0.0149 164.73)",
+          "oklch(0.8357 0.0149 164.73)",
+          "oklch(0.9500 0.0149 164.73)"
+        ]
+      },
+      "indexing": {
+        "role": "secondary",
+        "displayName": "Indexing",
+        "tonalRamp": [
+          "oklch(0.1500 0.1408 290.55)",
+          "oklch(0.2643 0.1408 290.55)",
+          "oklch(0.3786 0.1408 290.55)",
+          "oklch(0.4929 0.1408 290.55)",
+          "oklch(0.6071 0.1408 290.55)",
+          "oklch(0.7214 0.1408 290.55)",
+          "oklch(0.8357 0.1408 290.55)",
+          "oklch(0.9500 0.1408 290.55)"
+        ]
+      },
+      "indexing-surface": {
+        "role": "secondary",
+        "displayName": "Indexing Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0218 297.42)",
+          "oklch(0.2643 0.0218 297.42)",
+          "oklch(0.3786 0.0218 297.42)",
+          "oklch(0.4929 0.0218 297.42)",
+          "oklch(0.6071 0.0218 297.42)",
+          "oklch(0.7214 0.0218 297.42)",
+          "oklch(0.8357 0.0218 297.42)",
+          "oklch(0.9500 0.0218 297.42)"
+        ]
+      },
+      "partial": {
+        "role": "secondary",
+        "displayName": "Partial",
+        "tonalRamp": [
+          "oklch(0.1500 0.0909 78.85)",
+          "oklch(0.2643 0.0909 78.85)",
+          "oklch(0.3786 0.0909 78.85)",
+          "oklch(0.4929 0.0909 78.85)",
+          "oklch(0.6071 0.0909 78.85)",
+          "oklch(0.7214 0.0909 78.85)",
+          "oklch(0.8357 0.0909 78.85)",
+          "oklch(0.9500 0.0909 78.85)"
+        ]
+      },
+      "partial-surface": {
+        "role": "secondary",
+        "displayName": "Partial Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0349 81.28)",
+          "oklch(0.2643 0.0349 81.28)",
+          "oklch(0.3786 0.0349 81.28)",
+          "oklch(0.4929 0.0349 81.28)",
+          "oklch(0.6071 0.0349 81.28)",
+          "oklch(0.7214 0.0349 81.28)",
+          "oklch(0.8357 0.0349 81.28)",
+          "oklch(0.9500 0.0349 81.28)"
+        ]
+      },
+      "failed": {
+        "role": "secondary",
+        "displayName": "Failed",
+        "tonalRamp": [
+          "oklch(0.1500 0.1413 11.94)",
+          "oklch(0.2643 0.1413 11.94)",
+          "oklch(0.3786 0.1413 11.94)",
+          "oklch(0.4929 0.1413 11.94)",
+          "oklch(0.6071 0.1413 11.94)",
+          "oklch(0.7214 0.1413 11.94)",
+          "oklch(0.8357 0.1413 11.94)",
+          "oklch(0.9500 0.1413 11.94)"
+        ]
+      },
+      "failed-surface": {
+        "role": "secondary",
+        "displayName": "Failed Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0188 5.29)",
+          "oklch(0.2643 0.0188 5.29)",
+          "oklch(0.3786 0.0188 5.29)",
+          "oklch(0.4929 0.0188 5.29)",
+          "oklch(0.6071 0.0188 5.29)",
+          "oklch(0.7214 0.0188 5.29)",
+          "oklch(0.8357 0.0188 5.29)",
+          "oklch(0.9500 0.0188 5.29)"
+        ]
+      },
+      "metric-violet": {
+        "role": "secondary",
+        "displayName": "Metric Violet",
+        "tonalRamp": [
+          "oklch(0.1500 0.1612 288.39)",
+          "oklch(0.2643 0.1612 288.39)",
+          "oklch(0.3786 0.1612 288.39)",
+          "oklch(0.4929 0.1612 288.39)",
+          "oklch(0.6071 0.1612 288.39)",
+          "oklch(0.7214 0.1612 288.39)",
+          "oklch(0.8357 0.1612 288.39)",
+          "oklch(0.9500 0.1612 288.39)"
+        ]
+      },
+      "metric-violet-surface": {
+        "role": "secondary",
+        "displayName": "Metric Violet Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0217 297.42)",
+          "oklch(0.2643 0.0217 297.42)",
+          "oklch(0.3786 0.0217 297.42)",
+          "oklch(0.4929 0.0217 297.42)",
+          "oklch(0.6071 0.0217 297.42)",
+          "oklch(0.7214 0.0217 297.42)",
+          "oklch(0.8357 0.0217 297.42)",
+          "oklch(0.9500 0.0217 297.42)"
+        ]
+      },
+      "metric-rose": {
+        "role": "secondary",
+        "displayName": "Metric Rose",
+        "tonalRamp": [
+          "oklch(0.1500 0.1112 8.10)",
+          "oklch(0.2643 0.1112 8.10)",
+          "oklch(0.3786 0.1112 8.10)",
+          "oklch(0.4929 0.1112 8.10)",
+          "oklch(0.6071 0.1112 8.10)",
+          "oklch(0.7214 0.1112 8.10)",
+          "oklch(0.8357 0.1112 8.10)",
+          "oklch(0.9500 0.1112 8.10)"
+        ]
+      },
+      "metric-rose-surface": {
+        "role": "secondary",
+        "displayName": "Metric Rose Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0135 0.26)",
+          "oklch(0.2643 0.0135 0.26)",
+          "oklch(0.3786 0.0135 0.26)",
+          "oklch(0.4929 0.0135 0.26)",
+          "oklch(0.6071 0.0135 0.26)",
+          "oklch(0.7214 0.0135 0.26)",
+          "oklch(0.8357 0.0135 0.26)",
+          "oklch(0.9500 0.0135 0.26)"
+        ]
+      },
+      "metric-blue": {
+        "role": "secondary",
+        "displayName": "Metric Blue",
+        "tonalRamp": [
+          "oklch(0.1500 0.1092 256.82)",
+          "oklch(0.2643 0.1092 256.82)",
+          "oklch(0.3786 0.1092 256.82)",
+          "oklch(0.4929 0.1092 256.82)",
+          "oklch(0.6071 0.1092 256.82)",
+          "oklch(0.7214 0.1092 256.82)",
+          "oklch(0.8357 0.1092 256.82)",
+          "oklch(0.9500 0.1092 256.82)"
+        ]
+      },
+      "metric-blue-surface": {
+        "role": "secondary",
+        "displayName": "Metric Blue Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0137 258.34)",
+          "oklch(0.2643 0.0137 258.34)",
+          "oklch(0.3786 0.0137 258.34)",
+          "oklch(0.4929 0.0137 258.34)",
+          "oklch(0.6071 0.0137 258.34)",
+          "oklch(0.7214 0.0137 258.34)",
+          "oklch(0.8357 0.0137 258.34)",
+          "oklch(0.9500 0.0137 258.34)"
+        ]
+      },
+      "metric-amber": {
+        "role": "secondary",
+        "displayName": "Metric Amber",
+        "tonalRamp": [
+          "oklch(0.1500 0.1052 82.22)",
+          "oklch(0.2643 0.1052 82.22)",
+          "oklch(0.3786 0.1052 82.22)",
+          "oklch(0.4929 0.1052 82.22)",
+          "oklch(0.6071 0.1052 82.22)",
+          "oklch(0.7214 0.1052 82.22)",
+          "oklch(0.8357 0.1052 82.22)",
+          "oklch(0.9500 0.1052 82.22)"
+        ]
+      },
+      "metric-amber-surface": {
+        "role": "secondary",
+        "displayName": "Metric Amber Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0200 84.59)",
+          "oklch(0.2643 0.0200 84.59)",
+          "oklch(0.3786 0.0200 84.59)",
+          "oklch(0.4929 0.0200 84.59)",
+          "oklch(0.6071 0.0200 84.59)",
+          "oklch(0.7214 0.0200 84.59)",
+          "oklch(0.8357 0.0200 84.59)",
+          "oklch(0.9500 0.0200 84.59)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "body": {
+        "displayName": "Body",
+        "purpose": "Root system font; local interface copy is usually 11\u201313px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Repository title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Chat empty-state heading."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Summary number; source also applies tabular numerals."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Primary and secondary action labels."
+      },
+      "section-label": {
+        "displayName": "Section Label",
+        "purpose": "Uppercase sidebar section heading."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "0 24px 85px #0d102c2b",
+        "purpose": "Structural modal elevation."
+      },
+      {
+        "name": "url-focus",
+        "value": "0 0 0 3px #6554d908",
+        "purpose": "URL field focus-within halo."
+      },
+      {
+        "name": "composer-focus",
+        "value": "0 0 0 3px #6554d90b",
+        "purpose": "Composer focus-within halo."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-colors",
+        "value": "background-color 0.15s ease, color 0.15s ease",
+        "purpose": "Button state transitions."
+      },
+      {
+        "name": "evidence-background",
+        "value": "background-color 0.15s",
+        "purpose": "Evidence link hover."
+      },
+      {
+        "name": "mobile-drawer",
+        "value": "transform 0.2s ease",
+        "purpose": "Off-canvas navigation."
+      },
+      {
+        "name": "skeleton",
+        "value": "skeleton 1.5s ease-in-out infinite",
+        "purpose": "Opacity pulse to 0.5."
+      },
+      {
+        "name": "progress",
+        "value": "progress 2s ease-in-out infinite",
+        "purpose": "Translate from -100% to 500%."
+      },
+      {
+        "name": "spin",
+        "value": "spin 1.25s linear infinite",
+        "purpose": "Loading rotation."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important; scroll-behavior: auto !important",
+        "purpose": "Applied universally under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1600px"
+      },
+      {
+        "name": "compact-max",
+        "value": "1150px"
+      },
+      {
+        "name": "two-column-max",
+        "value": "850px"
+      },
+      {
+        "name": "drawer-max",
+        "value": "650px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Repository actions and dialog submission.",
+      "html": "<button class=\"ds-primary\">Analyze Repository</button>",
+      "css": ".ds-primary{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border:0;border-radius:7px;font-weight:560;cursor:pointer;transition:background-color .15s ease,color .15s ease;background:var(--accent,#6554d9);color:white}.ds-primary:hover:not(:disabled){background:#5442c5}.ds-primary:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px;}.ds-primary:disabled{cursor:not-allowed;opacity:.55;transition:none}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary repository actions.",
+      "html": "<button class=\"ds-secondary\">View on GitHub</button>",
+      "css": ".ds-secondary{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border:0;border-radius:7px;font-weight:560;cursor:pointer;transition:background-color .15s ease,color .15s ease;background:white;border:1px solid #dde0e9;color:#535a70}.ds-secondary:hover:not(:disabled){background:#f0eefb;border-color:#c7bfed}.ds-secondary:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.55;transition:none}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "URL Field",
+      "kind": "input",
+      "refersTo": "input-url",
+      "description": "Single public GitHub repository URL.",
+      "html": "<label class=\"ds-label\" for=\"ds-url\">Repository URL</label><div class=\"ds-url\"><input id=\"ds-url\" placeholder=\"https://github.com/owner/repository\"></div>",
+      "css": ".ds-label{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;color:#555e73;font-weight:600}.ds-url{display:flex;border:1px solid #dddfea;border-radius:8px;padding:12px 13px;margin-top:9px;background:#fdfdff}.ds-url:focus-within{border-color:#a090db;box-shadow:0 0 0 3px #6554d908}.ds-url input{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;width:100%;min-width:0;border:0;outline:none;background:transparent;color:#5a6077;caret-color:var(--accent,#6554d9)}.ds-url input::placeholder{color:#626b80}.ds-url.ds-invalid{border-color:#d38d9a}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Repository Navigation",
+      "kind": "nav",
+      "refersTo": "nav-repository",
+      "description": "Pinned sidebar repository selection.",
+      "html": "<nav class=\"ds-nav\"><button class=\"ds-repo ds-active\"><strong>pallets/flask</strong><small>Not analyzed</small></button><button class=\"ds-repo\"><strong>django/django</strong><small>Not analyzed</small></button></nav>",
+      "css": ".ds-nav{background:var(--navy,#13182b);padding:16px;display:flex;flex-direction:column;gap:6px}.ds-repo{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;display:block;width:100%;min-height:65px;text-align:left;border:0;border-radius:8px;padding:13px 12px;background:transparent;color:#aeb6d0;cursor:pointer;transition:background-color .15s ease,color .15s ease}.ds-repo strong{display:block;font-size:13px;font-weight:560}.ds-repo small{display:block;font-size:12px;margin-top:7px;color:#a3abc1}.ds-repo:hover{background:#20263d;color:white}.ds-repo.ds-active{background:#2e294c;color:#d4ccff}.ds-repo:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px;}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Ready Status",
+      "kind": "chip",
+      "refersTo": "status-ready",
+      "description": "Written repository readiness with semantic color.",
+      "html": "<span class=\"ds-status\"><span class=\"ds-dot\"></span>Ready</span>",
+      "css": ".ds-status{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;display:inline-flex;align-items:center;gap:6px;padding:4px 7px;border-radius:5px;font-weight:500;color:#257857;background:#eaf6f0}.ds-dot{width:6px;height:6px;border-radius:50%;background:#42b891}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Metric Card",
+      "kind": "card",
+      "refersTo": "card-metric",
+      "description": "Flat summary card; preview uses an unavailable count.",
+      "html": "<article class=\"ds-metric\"><span>Decisions</span><strong>\u2014</strong><small>Not analyzed</small></article>",
+      "css": ".ds-metric{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;border:1px solid var(--line,#e8eaf1);border-radius:var(--radius,14px);padding:18px 19px;background:white}.ds-metric>span{font-size:12px;font-weight:550;color:#626b80}.ds-metric>strong{display:block;font-size:30px;line-height:1.2;font-weight:650;letter-spacing:-1px;font-variant-numeric:tabular-nums;margin:15px 0 9px;color:#2d3147}.ds-metric>small{font-size:11px;line-height:1.5;color:#626b80}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Content Tabs",
+      "kind": "nav",
+      "refersTo": "tabs-content",
+      "description": "Underlined selection above the content panel.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\">Ask DevRecall</button><button role=\"tab\" aria-selected=\"false\">Decisions</button></div>",
+      "css": ".ds-tabs{display:flex;gap:26px;border-bottom:1px solid var(--line,#e8eaf1)}.ds-tabs>button{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:12px;position:relative;border:0;background:transparent;padding:0 0 15px;color:#626b80;cursor:pointer;transition:color .15s ease}.ds-tabs>button[aria-selected=\"true\"]{color:var(--accent,#6554d9);font-weight:600}.ds-tabs>button[aria-selected=\"true\"]:after{content:\"\";position:absolute;bottom:-1px;left:0;right:0;height:2px;border-radius:2px;background:var(--accent,#6554d9)}.ds-tabs>button:hover{color:var(--accent,#6554d9)}.ds-tabs>button:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px;}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Add Repository",
+      "kind": "button",
+      "refersTo": "button-add-repository",
+      "description": "Dashed sidebar entry point.",
+      "html": "<button class=\"ds-add\">+ Add Repository</button>",
+      "css": ".ds-add{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:13px;font-weight:550;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;height:42px;border:1px dashed #454460;border-radius:8px;background:#1d2138;color:#cbc5f7;cursor:pointer;transition:background-color .15s ease,color .15s ease}.ds-add:hover{background:#2b294a;border-color:#7867c9}.ds-add:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px;}@media(prefers-reduced-motion:reduce){.ds-url,.ds-primary,.ds-add,.ds-repo,.ds-secondary,.ds-tabs{transition:none!important;animation:none!important}}"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Compact secondary icon action.",
+      "html": "<button class=\"ds-icon\" aria-label=\"Close\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button>",
+      "css": ".ds-icon{display:inline-grid;place-items:center;min-width:34px;height:34px;border:0;border-radius:6px;background:transparent;color:#7c8497;cursor:pointer;transition:background-color .15s ease,color .15s ease}.ds-icon:hover{background:#eeeaf9;color:var(--accent,#6554d9)}.ds-icon:focus-visible{outline:3px solid #9a8bf3;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-icon{transition:none!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Operate",
+    "overview": "DevRecall is a restrained workspace for recovering engineering context. The pinned navy sidebar anchors a light dashboard; violet identifies actions and selection. Rounded white panels, compact system typography, and generous space between groups keep repository evidence easy to scan.\n\nThis document records the implementation in `web/src/styles.css`, with visual authority from PRD section 5. The original screenshot references are absent. No custom imagery, decorative font, or replacement visual direction is established.",
+    "keyCharacteristics": [
+      "Persistent navy navigation and a pale dashboard canvas.",
+      "Violet actions and selection, with semantic status colors.",
+      "White bordered cards with restrained depth.",
+      "System sans typography and tabular metric numbers.",
+      "Responsive navigation, visible focus, and reduced-motion support."
+    ],
+    "rules": [],
+    "dos": [
+      "Do preserve the pinned navy sidebar, light dashboard, white cards, and violet actions.",
+      "Do use `#626b80` for the supporting-text contexts corrected in the shipped stylesheet.",
+      "Do preserve tabular metric numbers, visible keyboard focus, and reduced-motion behavior.",
+      "Do pair semantic status colors with readable written labels.",
+      "Do keep empty and incomplete states honest about available repository evidence."
+    ],
+    "donts": [
+      "Don't introduce a replacement visual identity or claim the missing screenshots were inspected.",
+      "Don't add decorative shadows or hover lift to flat dashboard cards.",
+      "Don't render illustrative metrics, decisions, or answers as actual repository analysis.",
+      "Don't replace the system font stack or add image assets without an established requirement."
+    ]
+  }
+}

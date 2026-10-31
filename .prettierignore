@@ -1,0 +1,9 @@
+node_modules
+dist
+package-lock.json
+data
+test-results
+playwright-report
+PRD.md
+CODEX_TASKS.md
+docs/BUILD_PACK_README.md

@@ -1,0 +1,46 @@
+{
+  "repository": {
+    "id": 1440959880,
+    "owner": "millimeow",
+    "name": "DevRecall",
+    "full_name": "millimeow/DevRecall",
+    "html_url": "https://github.com/millimeow/DevRecall",
+    "description": null,
+    "default_branch": "main",
+    "is_demo": 0,
+    "status": "ready",
+    "total_prs_known": 0,
+    "last_indexed_at": "2026-10-31 23:17:22",
+    "last_sync_at": "2026-10-31 23:17:22",
+    "last_error": null,
+    "created_at": "2026-10-31 23:17:21",
+    "updated_at": "2026-10-31 23:17:21"
+  },
+  "summary": {
+    "decisions": 0,
+    "rejected_removed": 0,
+    "prs_scanned": 0,
+    "prs_analyzed": 0,
+    "comments_scanned": 0,
+    "comments_analyzed": 0
+  },
+  "job": {
+    "id": "621051b0-4fe2-4d97-842e-af4e9a99410d",
+    "repo_id": 1440959880,
+    "mode": "full",
+    "status": "completed",
+    "phase": "completed",
+    "last_pr_page": 1,
+    "prs_discovered": 0,
+    "prs_fetched": 0,
+    "prs_analyzed": 0,
+    "comments_fetched": 0,
+    "comments_analyzed": 0,
+    "error_message": null,
+    "retry_after": null,
+    "started_at": "2026-10-31 23:17:22",
+    "finished_at": "2026-10-31 23:17:22",
+    "updated_at": "2026-10-31 23:17:22",
+    "discovery_done": 1
+  }
+}
