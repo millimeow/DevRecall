@@ -1,0 +1,8 @@
+{
+  "title": "SYNTHETIC: choosing storage for a local tool",
+  "messages": [
+    {"author":"Contributor A","body":"We could use JSON files, Redis, or SQLite for src/store.py."},
+    {"author":"Maintainer","body":"We reject JSON files because concurrent writes can overwrite each other. We reject Redis because users should not need a separate server. We choose SQLite for src/store.py because it provides transactions in a single local file."},
+    {"author":"Contributor A","body":"Agreed. SQLite is the accepted choice for this tool."}
+  ]
+}

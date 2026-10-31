@@ -1,0 +1,253 @@
+{
+  "discussion": {
+    "id": "45629fa0-475e-4001-8760-035e17c26ec0",
+    "title": "SYNTHETIC: choosing storage for a local tool",
+    "source_type": "paste",
+    "source_url": null,
+    "created_at": "2026-10-31T15:45:27.938318+00:00",
+    "messages": [
+      {
+        "id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0001",
+        "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+        "author": "Contributor A",
+        "body": "We could use JSON files, Redis, or SQLite for src/store.py.",
+        "source_url": null,
+        "created_at": null,
+        "sequence_number": 1
+      },
+      {
+        "id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+        "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+        "author": "Maintainer",
+        "body": "We reject JSON files because concurrent writes can overwrite each other. We reject Redis because users should not need a separate server. We choose SQLite for src/store.py because it provides transactions in a single local file.",
+        "source_url": null,
+        "created_at": null,
+        "sequence_number": 2
+      },
+      {
+        "id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0003",
+        "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+        "author": "Contributor A",
+        "body": "Agreed. SQLite is the accepted choice for this tool.",
+        "source_url": null,
+        "created_at": null,
+        "sequence_number": 3
+      }
+    ],
+    "runs": [
+      {
+        "id": "6b332261-e3d8-4def-95fe-0e0365e6014f",
+        "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+        "model_name": "qwen2.5:3b",
+        "model_provider": "Ollama",
+        "status": "completed",
+        "error_message": null,
+        "created_at": "2026-10-31T15:45:27.941437+00:00",
+        "completed_at": "2026-10-31T15:45:47.023982+00:00"
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "id": "8421fb2e-6f63-434f-8b86-a1cc9bdb2cde",
+      "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+      "run_id": "6b332261-e3d8-4def-95fe-0e0365e6014f",
+      "payload": null,
+      "discussion_title": "SYNTHETIC: choosing storage for a local tool",
+      "source_url": null,
+      "title": "Storage Options",
+      "question": "What storage solution should we use for src/store.py?",
+      "chosen_approach": null,
+      "status": "uncertain",
+      "summary": "Insufficient verified evidence. Review the original messages.",
+      "confidence": "low",
+      "alternatives": [
+        {
+          "name": "JSON files",
+          "status": "rejected",
+          "reason": "We reject JSON files because concurrent writes can overwrite each other.",
+          "evidence": [
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject JSON files because concurrent writes can overwrite each other.",
+              "claim_type": "alternative_status",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            },
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject JSON files because concurrent writes can overwrite each other.",
+              "claim_type": "rejection_reason",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            }
+          ]
+        },
+        {
+          "name": "Redis",
+          "status": "rejected",
+          "reason": "We reject Redis because users should not need a separate server.",
+          "evidence": [
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject Redis because users should not need a separate server.",
+              "claim_type": "alternative_status",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            },
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject Redis because users should not need a separate server.",
+              "claim_type": "rejection_reason",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            }
+          ]
+        }
+      ],
+      "rationales": [],
+      "evidence": [],
+      "code_refs": [],
+      "uncertainties": [
+        "Rejected approaches reflect cited participant objections; a final project-wide outcome may be unknown."
+      ]
+    },
+    {
+      "id": "9a02b64b-a440-4e8a-b940-59b953e30d7f",
+      "discussion_id": "45629fa0-475e-4001-8760-035e17c26ec0",
+      "run_id": "6b332261-e3d8-4def-95fe-0e0365e6014f",
+      "payload": null,
+      "discussion_title": "SYNTHETIC: choosing storage for a local tool",
+      "source_url": null,
+      "title": "Database Choice for src/store.py",
+      "question": "What database should be used for src/store.py?",
+      "chosen_approach": "SQLite",
+      "status": "accepted",
+      "summary": "SQLite is chosen for src/store.py due to its transactional capabilities in a single local file.",
+      "confidence": "low",
+      "alternatives": [
+        {
+          "name": "JSON files",
+          "status": "uncertain",
+          "reason": null,
+          "evidence": [
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0001",
+              "quote": "We reject JSON files because concurrent writes can overwrite each other.",
+              "claim_type": "alternative_status",
+              "verified": false,
+              "source_url": null,
+              "author": "Contributor A"
+            },
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0001",
+              "quote": "We reject JSON files because concurrent writes can overwrite each other.",
+              "claim_type": "rejection_reason",
+              "verified": false,
+              "source_url": null,
+              "author": "Contributor A"
+            }
+          ]
+        },
+        {
+          "name": "Redis",
+          "status": "rejected",
+          "reason": "We reject Redis because users should not need a separate server.",
+          "evidence": [
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject Redis because users should not need a separate server.",
+              "claim_type": "alternative_status",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            },
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We reject Redis because users should not need a separate server.",
+              "claim_type": "rejection_reason",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            }
+          ]
+        },
+        {
+          "name": "SQLite",
+          "status": "accepted",
+          "reason": "We choose SQLite for src/store.py because it provides transactions in a single local file.",
+          "evidence": [
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We choose SQLite for src/store.py because it provides transactions in a single local file.",
+              "claim_type": "alternative_status",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            },
+            {
+              "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+              "quote": "We choose SQLite for src/store.py because it provides transactions in a single local file.",
+              "claim_type": "rationale",
+              "verified": true,
+              "source_url": null,
+              "author": "Maintainer"
+            }
+          ]
+        }
+      ],
+      "rationales": [],
+      "evidence": [
+        {
+          "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+          "quote": "We choose SQLite for src/store.py because it provides transactions in a single local file.",
+          "claim_type": "decision_status",
+          "verified": true,
+          "source_url": null,
+          "author": "Maintainer"
+        },
+        {
+          "message_id": "45629fa0-475e-4001-8760-035e17c26ec0:msg_0002",
+          "quote": "We choose SQLite for src/store.py because it provides transactions in a single local file.",
+          "claim_type": "chosen_approach",
+          "verified": true,
+          "source_url": null,
+          "author": "Maintainer"
+        }
+      ],
+      "code_refs": [
+        "SQLite"
+      ],
+      "uncertainties": [
+        "The reasons for rejecting JSON files and Redis are stated, but the reasons for choosing SQLite are not explicitly stated.",
+        "JSON files: outcome lacks verified status evidence.",
+        "JSON files: reason removed because its evidence could not be verified."
+      ]
+    }
+  ],
+  "runtime": {
+    "model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "model_details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen2",
+      "families": [
+        "qwen2"
+      ],
+      "parameter_size": "3.1B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 32768,
+      "embedding_length": 2048,
+      "runner": "ggml"
+    },
+    "provider": "Ollama",
+    "elapsed_seconds": 19.15,
+    "input_file": "examples/synthetic_discussion.json",
+    "real_inference": true
+  }
+}

@@ -35,13 +35,14 @@ DevRecall aims to recover technical decisions from public open-source discussion
 
 ## AI Models Used and Justification
 
-> **Complete this section with the actual model(s) integrated into the project. Do not claim to use models that are not implemented.**
+The application uses a configurable local open-weight model. Actual executions and validation results are preserved in `examples/`; source-quote verification is separate from model interpretation quality.
 
 | AI Model | How It Is Used | Reason for Selecting It |
 | --- | --- | --- |
-| [Actual open-source/open-weight model name and version — or `None` if not yet selected] | [Specific implemented task, such as decision and rationale extraction] | [Why this model fits the task, e.g. local inference, context handling, or structured output] |
+| Qwen2.5 3B (`qwen2.5:3b`, 3.1B parameters, Q4_K_M) | Local structured decision/alternative extraction and evidence-grounded question answering through the implemented Ollama adapter | Open weights, local inference without API keys, bounded memory use and JSON-schema output |
+| OpenAI Codex (coding assistant; exact underlying model version not exposed to the session) | Implementation, tests, documentation and browser verification | Development assistance; not used as the application's extraction model |
 
-**Model execution method:** [e.g., Ollama / Hugging Face Transformers / other actual integration; update once implemented]
+**Model execution method:** Ollama HTTP API, runtime version `0.40.13`. Configured model digest: `357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b`. The development verification used a temporary runtime and model directory under `/private/tmp/devrecall-ollama`; normal installation instructions are in README.md.
 
 ## Hackathon Details
 

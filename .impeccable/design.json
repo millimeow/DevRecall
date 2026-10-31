@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T00:00:00+05:30",
+  "title": "Design System: DevRecall",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Mint"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Workspace canvas"
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Dark sidebar"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Raised surface"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Supporting text"
+      },
+      "accepted-text": {
+        "role": "secondary",
+        "displayName": "Accepted green"
+      },
+      "rejected-text": {
+        "role": "secondary",
+        "displayName": "Rejected rose"
+      },
+      "proposed-text": {
+        "role": "secondary",
+        "displayName": "Proposed blue"
+      },
+      "contested-text": {
+        "role": "secondary",
+        "displayName": "Contested mauve"
+      },
+      "uncertain-text": {
+        "role": "secondary",
+        "displayName": "Uncertain amber"
+      },
+      "unknown-choice-surface": {
+        "role": "neutral",
+        "displayName": "Outcome not established"
+      },
+      "mobile-model-text": {
+        "role": "neutral",
+        "displayName": "Mobile model status"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Page heading",
+        "purpose": "Main workspace headings; responsive size adjustments live in CSS."
+      },
+      "body": {
+        "displayName": "Interface body",
+        "purpose": "Root size; most content paragraphs explicitly use 11\u201313px."
+      },
+      "code": {
+        "displayName": "Code and provenance",
+        "purpose": "IDs, paths, structured JSON and commands."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "field-border",
+        "value": "border-color .16s",
+        "purpose": "Input and textarea border-state transition."
+      },
+      {
+        "name": "loading-spinner",
+        "value": "spin 1s linear infinite",
+        "purpose": "Loading indication only."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation:none!important; transition:none!important; scroll-behavior:auto!important",
+        "purpose": "Applied to all elements and pseudo-elements under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1500px",
+        "purpose": "Minimum width: increased top spacing and textarea height."
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1100px",
+        "purpose": "Maximum width: 200px sidebar, compact spacing and evidence column."
+      },
+      {
+        "name": "mobile",
+        "value": "760px",
+        "purpose": "Maximum width: horizontal navigation, top-bar model-health/setup button, stacked fields and evidence."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action in a form or page.",
+      "html": "<button class=\"ds-primary\">Analyze discussion</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:39px;padding:10px 15px;border-radius:7px;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;font-weight:600;cursor:pointer;background:var(--accent,#b7ecc8);color:#14271a;border:0}.ds-primary:hover{background:#cef8db}.ds-primary:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}.ds-primary:disabled{opacity:.55;cursor:wait}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Export and supporting actions.",
+      "html": "<button class=\"ds-secondary\">Markdown</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:39px;padding:10px 15px;border-radius:7px;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #39413b;background:#191d1a;color:#d1d9d3}.ds-secondary:hover{background:#252d27}.ds-secondary:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}.ds-secondary:disabled{opacity:.55;cursor:wait}"
+    },
+    {
+      "name": "Text button",
+      "kind": "button",
+      "description": "Compact source and navigation actions.",
+      "html": "<button class=\"ds-text\">View source message</button>",
+      "css": ".ds-text{display:inline-flex;align-items:center;gap:6px;padding:0;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;color:var(--accent,#b7ecc8);background:none;border:0;cursor:pointer}.ds-text:hover{color:#e2ffeb}.ds-text:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labeled discussion-title field.",
+      "html": "<label class=\"ds-label\">Discussion title<input class=\"ds-input\" placeholder=\"What was the team deciding?\"></label>",
+      "css": ".ds-label{display:block;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;font-weight:500;color:#cbd6ce}.ds-input{display:block;margin-top:9px;width:100%;font-family:inherit;font-size:11px;height:39px;padding:12px 13px;border:1px solid var(--border,#2b302d);border-radius:7px;background:#111412;color:var(--text,#ecefec);caret-color:var(--accent,#b7ecc8);transition:border-color .16s}.ds-input:hover{border-color:#465149}.ds-input:focus{border-color:#91b99e}.ds-input::placeholder{color:#7d8880;opacity:1}.ds-input:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-input{transition:none}}"
+    },
+    {
+      "name": "Active navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "A selected workspace destination.",
+      "html": "<nav><button class=\"ds-nav\" aria-current=\"page\">Overview</button></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:11px;text-align:left;min-height:39px;padding:10px 12px;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;border:0;border-radius:6px;background:#1d2820;color:var(--accent,#b7ecc8);cursor:pointer}.ds-nav:hover{background:#191e1a;color:#e2eee5}.ds-nav:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}"
+    },
+    {
+      "name": "Accepted status",
+      "kind": "chip",
+      "refersTo": "status-accepted",
+      "description": "A written decision outcome, reinforced by a dot.",
+      "html": "<span class=\"ds-status\"><span></span>Accepted</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:5px;background:#1f3526;color:#b5e4c2;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10px;white-space:nowrap}.ds-status>span{width:4px;height:4px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "Import panel",
+      "kind": "card",
+      "refersTo": "import-panel",
+      "description": "The discussion-import container, shown without invented source content.",
+      "html": "<section class=\"ds-panel\"><h2>From discussion to decision</h2><p>Bring the conversation. Recover the choices, tradeoffs, and reasons.</p></section>",
+      "css": ".ds-panel{border:1px solid #343d36;border-radius:12px;background:#151916;padding:23px 24px 21px;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text,#ecefec)}.ds-panel h2{margin:0;font-size:16px;font-weight:550;letter-spacing:-.25px}.ds-panel p{margin:5px 0 0;font-size:11px;line-height:1.65;color:var(--muted,#a0aaa3)}"
+    },
+    {
+      "name": "Source quote",
+      "kind": "custom",
+      "refersTo": "evidence-quote",
+      "description": "Quote styling with a labeled specimen. Global answer citations open the discussion and original message directly from its source ID; missing sources show a retry/reimport error.",
+      "html": "<article class=\"ds-quote\"><div class=\"ds-quote-top\">Quote component specimen \u00b7 no source loaded</div><blockquote>Original source text appears here after a discussion is analyzed.</blockquote><button class=\"ds-source\">View source message</button></article>",
+      "css": ".ds-quote{background:#181e19;border:1px solid #344137;border-radius:8px;padding:13px 14px;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.ds-quote-top{font-size:8px;color:#9db7a6}.ds-quote blockquote{font-size:12px;line-height:1.8;margin:13px 0;color:#d8e6dc;overflow-wrap:anywhere}.ds-source{font-family:inherit;font-size:9px;color:var(--accent,#b7ecc8);padding:0;border:0;background:none;cursor:pointer}.ds-source:hover{color:#e2ffeb}.ds-source:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}"
+    },
+    {
+      "name": "Outcome not established",
+      "kind": "custom",
+      "refersTo": "unknown-choice",
+      "description": "Neutral callout used when an accepted choice lacks verified chosen-approach support.",
+      "html": "<div class=\"ds-unknown\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/></svg><div><span>Outcome not established</span><h3>No verified choice established</h3></div></div>",
+      "css": ".ds-unknown{display:flex;gap:12px;align-items:center;padding:19px 17px;background:#1c211d;color:#b2beb6;border-radius:9px;font-family:\"DM Sans\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}.ds-unknown svg{flex-shrink:0}.ds-unknown span{font-size:10px;color:#a0aaa3}.ds-unknown h3{margin:5px 0 0;font-size:15px;font-weight:500;line-height:1.5}"
+    },
+    {
+      "name": "Mobile model setup",
+      "kind": "button",
+      "description": "Top-bar model-health button at 760px and below, opening model setup. This specimen shows the unavailable state.",
+      "html": "<button class=\"ds-mobile-model\" aria-label=\"Model unavailable. Open model setup\"><span></span>Model offline</button>",
+      "css": ".ds-mobile-model{display:inline-flex;align-items:center;gap:6px;padding:6px 0;border:0;background:none;font-family:\"DM Sans\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:9px;color:#bfd2c5;cursor:pointer}.ds-mobile-model>span{width:6px;height:6px;border-radius:50%;background:#d0ab69}.ds-mobile-model:focus-visible{outline:2px solid var(--accent,#b7ecc8);outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Annotated source archive",
+    "overview": "A dark, quiet developer workspace, consistent with the PRD's GitHub-inspired lightweight app and the user's confirmed dark, code-first direction. Recovered decisions sit beside inspectable evidence. Dense, readable controls, restrained separators and mint actions keep attention on original source material. This source-based documentation refresh does not certify a passed visual review; the finish review verdict is still awaited after follow-up fixes.",
+    "keyCharacteristics": [
+      "Dark green-tinted surfaces and one-pixel borders",
+      "Compact sans-serif interface; monospace for code and provenance",
+      "Source evidence beside model interpretation",
+      "Tonal depth, modest corners and visible keyboard focus"
+    ],
+    "rules": [
+      {
+        "name": "Labeled outcomes",
+        "body": "Pair each outcome color with its written status. Quote verification establishes source presence, not semantic correctness.",
+        "section": "colors"
+      },
+      {
+        "name": "Flat layering",
+        "body": "Use tonal fills and separators; the implemented stylesheet has no box shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep decisions close to inspectable evidence.",
+      "Do preserve visible keyboard focus and reduced-motion behavior.",
+      "Do distinguish actual model output from uncertain interpretation."
+    ],
+    "donts": [
+      "Don't replace the confirmed dark workspace without user instruction.",
+      "Don't imply quote verification proves an interpretation.",
+      "Don't invent source content or populated output for visual review."
+    ]
+  }
+}
