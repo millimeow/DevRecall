@@ -3,7 +3,7 @@
 ## Platform
 web
 ## Stack
-React + Vite frontend, Python FastAPI, SQLite, configurable local Ollama inference, as specified in the supplied PRD.
+User-requested migration: React with Next.js App Router frontend, Express.js on Node.js backend, SQLite, and configurable local Ollama inference. Application code is JavaScript; Python and Vite are no longer required.
 ## Users and purpose
 Open-source maintainers, new contributors, and hackathon evaluators recover technical decisions and rejected alternatives from public discussions. Evaluation uses discussion text without supplying the final PEP.
 ## Operating context

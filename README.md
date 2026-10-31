@@ -2,33 +2,28 @@
 
 **Every decision has a reason. Never lose it.**
 
-DevRecall recovers engineering decisions, rejected alternatives and their reasoning from public technical discussions. It pairs local open-weight inference with exact source-quote checking, durable SQLite storage and an evidence-first workspace. Built for Problem 06, Hacktoberfest 2026 — Hack Day Sonipat.
+DevRecall recovers engineering choices, rejected alternatives and source evidence from public discussions. Built for Problem 06, Hacktoberfest 2026 — Hack Day Sonipat.
 
-## What works
+## Stack
 
-- Paste public discussion text or structured messages with speakers and original URLs.
-- Import a public GitHub issue or PR description and issue comments, with bounded pagination and actionable rate-limit errors.
-- Run real structured extraction with a configurable Ollama model. Invalid structured output gets one repair retry. Discussions chunk on message boundaries; a general pass recovers approaches and focused source-message passes look for objections. Matching questions merge conservatively, preserving conflicting outcomes.
-- Inspect chosen approaches, accepted/rejected/proposed/contested/uncertain alternatives, rationale and exact quotes. Reasons are preserved as source excerpts. Missing evidence downgrades status or removes unsupported reasons. Confirmed outcome labels require the approach name and explicit choice/objection language in the cited quote. Code paths survive only when literally present in verified evidence.
-- Persist discussions, immutable message IDs, extraction-run metadata and decision records in SQLite. Failed reruns preserve the previous successful results.
-- Search titles, alternatives and reasons; ask evidence-grounded questions using recovered decisions and relevant original-message excerpts, with validated citations and explicit abstention.
-- Export JSON or Markdown; match manually supplied changed paths to explicitly cited historical code paths.
-- Responsive dark React workspace with honest model health, loading/error/empty states and original-message inspection.
+- **Frontend:** React.js + Next.js 16 App Router, JavaScript, existing dark responsive interface.
+- **Backend:** Express.js 5 on Node.js, JavaScript ES modules.
+- **Storage:** SQLite through Node's built-in SQLite API.
+- **Inference:** configurable local Ollama open-weight model; default `qwen2.5:3b`.
+- **Validation/testing:** Ajv JSON Schema and Node's built-in test runner.
 
-The app does not substitute hard-coded answers when a model is unavailable. Nothing is sent to a cloud inference API. GitHub imports make public network requests; model inference uses your configured Ollama endpoint. The interface loads its optional DM Sans font from Google Fonts; the system-font fallback works offline.
+Python and Vite are no longer application dependencies. The existing SQLite schema is retained; upgrading does not reset discussions, message IDs, runs or decision payloads.
 
-## Run locally
+## Install and run
 
-Requires Python 3.11+, Node 22+, and [Ollama](https://ollama.com/download). Run commands from the repository root unless stated otherwise.
+Requires **Node.js 22.13+** (tested with 22.20.0), npm, and [Ollama](https://ollama.com/download). Run all commands from the repository root.
 
 ```sh
+npm ci
 cp .env.example .env
-python3 -m venv backend/.venv
-backend/.venv/bin/pip install -c backend/requirements.lock.txt -e './backend[dev]'
-npm ci --prefix frontend
 ```
 
-Start Ollama in one terminal, then install the configured open-weight model in another:
+Start Ollama separately, then install the configured model:
 
 ```sh
 ollama serve
@@ -38,119 +33,143 @@ ollama serve
 ollama pull qwen2.5:3b
 ```
 
-Start the backend:
+Start both application servers:
 
 ```sh
-backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
+npm run dev
 ```
 
-Start the frontend in another terminal:
+Open **http://127.0.0.1:5173**. Next.js serves the React app and proxies `/api/*` to Express at **http://127.0.0.1:8000**.
+
+Run the servers separately if preferred:
 
 ```sh
-npm run dev --prefix frontend
+npm run dev:backend
+npm run dev:frontend
 ```
 
-Open **http://127.0.0.1:5173**. API docs: **http://127.0.0.1:8000/docs**. Use **127.0.0.1** rather than a public network interface; this is a single-user local tool without authentication.
+Production:
 
-For a single application server, run `npm run build --prefix frontend` **before** starting the backend, then open **http://127.0.0.1:8000**. The FastAPI app serves the production bundle when it exists at startup.
+```sh
+npm run build
+npm run start:backend
+# In another terminal:
+npm run start:frontend
+```
 
-Configuration in `.env`:
+Express serves the API; Next.js serves the frontend in both development and production. Keep both on loopback: this is a single-user local tool without authentication.
+
+Configuration in the root `.env`:
 
 ```dotenv
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=qwen2.5:3b
 MODEL_TIMEOUT=240
+PORT=8000
+API_BASE_URL=http://127.0.0.1:8000
 # DEVRECALL_DB=/absolute/path/to/devrecall.db
 ```
 
-The default SQLite database is `backend/devrecall.db` (ignored by Git). Restart the backend after changing configuration. Swapping models requires only changing `OLLAMA_MODEL`; alternative providers can implement `app/llm.py`'s `generate` and `health` functions. Context and output budgets are bounded in that adapter.
+The default database remains `backend/devrecall.db` and is ignored by Git. `MODEL_TIMEOUT` is seconds per inference request. Changing API_BASE_URL requires restarting development or rebuilding production; other configuration changes require restarting Express. Next.js reads the same root environment file for its API proxy. The built-in SQLite API is experimental in the tested Node 22 release and emits a warning; it is covered by persistence tests.
 
-## Try it
+## Implemented workflow
 
-1. Open **Overview**. Choose **Paste discussion**, **Structured JSON**, or **GitHub URL**.
-2. Add a title, source URL if available, and public discussion. For JSON, paste the `messages` array from `examples/public_discussion.json`, or the entire fixture object and set the form title/source fields.
-3. Analyze. Local inference may take several minutes. If Ollama fails, your imported messages remain saved; use **Analyze again** after connecting the model.
-4. Inspect alternatives and expand their evidence. Each quote links to the internal original message and, when available, the public source.
-5. Ask a question within the discussion or across the library. Search for an alternative name or reason. Export your result to check it independently.
+1. Paste a public discussion, import structured JSON messages, or import a public GitHub issue/PR.
+2. Analyze with the configured local Ollama model. The app never substitutes fixtures for inference.
+3. Inspect chosen approaches, alternatives, reasons, status and immutable original-message citations.
+4. Search decisions or ask questions grounded in stored evidence and relevant original messages.
+5. Export JSON/Markdown or match changed paths to explicit code references.
 
-Raw paste is honestly treated as one unattributed message. For long threads or reliable attribution, use structured messages. The importer never executes discussion code or follows instructions embedded in discussion text.
+Imports preserve speaker/URL attribution when supplied. Raw paste is one honestly unattributed message. Failed inference preserves the source and previous successful results. Rerun after connecting/installing the model.
 
-## Tests and real-model evaluation
+Extraction chunks on message boundaries, uses one general pass and focused objection-message passes, validates schema output with one repair retry, verifies exact quotes and conservatively merges matching technical questions. Outcome promotion requires explicit English outcome vocabulary and a literal approach name in the quote. Unsupported claims remain uncertain. Reasons are preserved as source excerpts; code references survive only when literally quoted.
+
+All API paths remain under `/api`:
+
+| Endpoint | Purpose |
+| --- | --- |
+| GET /health | API/database health and model availability |
+| GET/POST /discussions | List/import discussions |
+| GET /discussions/:id | Original messages and extraction runs |
+| POST /discussions/:id/analyze | Real inference and evidence validation |
+| GET /discussions/:id/decisions | Stored decisions |
+| GET /decisions/:id | Decision detail |
+| GET /search?q=... | Keyword search |
+| POST /ask | Grounded answer or abstention |
+| GET /discussions/:id/export?format=json | JSON or Markdown export |
+| POST /github/import | Public issue/PR description and issue comments |
+| POST /pr-context | Exact cited-path matches |
+
+## Verify
 
 ```sh
-backend/.venv/bin/pytest -q backend/tests
-npm run build --prefix frontend
+npm test
+npm run build
 ```
 
-Offline tests mock **only the LLM adapter** and exercise ingestion, SQLite, evidence checking, uncertainty, repair retry, conflicting segments, search, grounded citations, exports and API failure states. They never claim mocked inference as a real demonstration. The GitHub Actions workflow runs the same offline checks and frontend build.
+**Migration validation: 15 JavaScript tests passed and the Next.js production build passed.** Tests use actual Express HTTP requests and SQLite, replacing the LLM adapter at the inference boundary. Coverage includes quote checking, uncertainty, schema repair, disagreement, search, exports, persistence, model errors, concurrent analysis, original-message retrieval and cited answers. Adapter transport failure tests use an isolated fake HTTP transport and do not claim real inference.
 
-Local verification: **15 backend tests passed**, the frontend production build passed, and actual extraction/QA outputs are saved in `examples/`. The public discussion has important extraction-coverage limitations; see [the measured evaluation](examples/EVALUATION.md).
+GitHub Actions installs from the root lockfile and runs these same checks. A remote CI result is not claimed without a configured remote.
 
-To reproduce real inference (Ollama and the configured model must be running):
+Real inference, with the application servers and Ollama running:
 
 ```sh
-backend/.venv/bin/python backend/scripts/evaluate_discussion.py \
-  --input examples/public_discussion.json \
-  --output examples/sample_output.json
+npm run evaluate -- --input examples/synthetic_discussion.json --output examples/node_synthetic_output.json
+npm run evaluate -- --input examples/public_discussion.json --output examples/node_sample_output.json
 ```
 
-This imports the public source, runs the real adapter, validates quotes, stores the result and exports source messages, decisions, model name, timestamps and elapsed time. It writes to your configured database. The synthetic fixture is clearly labeled in `examples/synthetic_discussion.json`; use a different output filename when evaluating it. See `examples/HOW_TO_REPRODUCE.md` for provenance and measured results.
+The evaluator calls the Express API, stores the discussion/run and saves untouched actual output with model digest and Node runtime metadata. It does not mock the model. The synthetic input is clearly labeled. Original `sample_output.json`, `synthetic_output.json`, `sample_answer.json` and `attempts/` are historical outputs from the earlier implementation, not JavaScript-run claims. See [migration verification](examples/JAVASCRIPT_MIGRATION.md) and [reproduction instructions](examples/HOW_TO_REPRODUCE.md).
 
-`backend/requirements.lock.txt` records the Python dependency versions used locally; the editable app itself is installed separately using the command above. Frontend dependencies are locked in `frontend/package-lock.json`.
-
-## Architecture and files
+## Files
 
 ```text
-HACKATHON.md               Preserved event/team record and actual AI disclosure
-README.md, LICENSE         Setup and MIT license
-.env.example               Local model configuration
-.github/                   CI and mandatory PR template
+package.json, package-lock.json     npm workspaces and shared commands
 backend/
-  pyproject.toml, requirements.lock.txt
-  app/
-    main.py                API, ingestion, search, QA, GitHub, export, PR context
-    config.py              Environment configuration
-    database.py            SQLite schema and connections
-    schemas.py             Validated inputs and model-output schemas
-    llm.py                 Configurable real Ollama adapter
-    extraction.py          Chunking, schema repair, conservative merge
-    evidence.py            Exact quote checks and uncertainty enforcement
-  tests/                   Offline pipeline, API and model-contract tests
-  scripts/evaluate_discussion.py
+  package.json
+  src/
+    server.js, app.js               Express lifecycle and routes
+    config.js, errors.js            Environment and API errors
+    database.js                    Compatible SQLite schema/storage
+    schemas.js                     Input and model-output JSON schemas
+    llm.js                         Real Ollama adapter
+    extraction.js                  Chunking and approach extraction
+    evidence.js                    Source validation and uncertainty
+    retrieval.js                   Search and grounded Q&A
+    github.js                      Public GitHub import
+  test/pipeline.test.js             JavaScript unit/integration tests
+  scripts/evaluate-discussion.js    Actual inference evaluator
 frontend/
-  package.json, package-lock.json, vite.config.js, index.html
-  src/App.jsx              Workspace, import, library, details, Ask, context
-  src/api.js, main.jsx, styles.css
-examples/                  Public discussion, synthetic fixture, actual outputs
-PRODUCT.md, DESIGN.md       Product constraints and visual system
+  package.json, next.config.mjs
+  app/layout.jsx, app/page.jsx      Next.js App Router entry points
+  src/App.jsx                      React client workspace
+  src/api.js, src/styles.css        API client and visual system
+examples/                          Public/synthetic inputs and real outputs
+.github/                           CI and PR template
+HACKATHON.md, LICENSE, .env.example
+PRODUCT.md, DESIGN.md              Product and visual context
 ```
 
-FastAPI + Pydantic → Ollama JSON schema → quote validation → SQLite → React. SQLite stores messages and runs relationally, and decisions with alternatives/rationales/evidence as structured JSON payloads in the decision table. Keyword retrieval is a bounded MVP scan of stored decisions, rather than FTS5 or a vector service.
+## Practical limits
 
-## Honest limits
+- Quote matching proves source presence, **not semantic entailment or consensus**. Interpretations and answers still require human review.
+- The small 3B model has limited rejected-alternative recall on the public Python case. The conservative guard keeps questionable outcomes uncertain. No full organizer benchmark pass is claimed; see the [historical evaluation](examples/EVALUATION.md).
+- Input bounds: 200,000 characters, 500 messages, 60,000 characters per structured message. Analysis requires each message to fit 22,000 characters. Focused passes prioritize at most eight objection messages per chunk; implicit and non-English objections can be missed.
+- Question retrieval is lexical. Broad wording can retrieve unrelated context; the answer validator abstains on invalid citations.
+- GitHub import is public and unauthenticated, capped at 400 issue comments. Inline PR reviews, attachments, private repositories and automatic PR diff retrieval are not included.
+- Code matching is exact, without semantic compatibility or rename detection. Nothing is posted to upstream repositories.
+- No auth, webhooks, vector search or public cloud deployment. Your Ollama endpoint must be reachable by Express.
+- The UI loads optional DM Sans from Google Fonts and falls back to system fonts offline. Refreshing returns to Overview, preserving SQLite data.
 
-- Exact quote verification proves text is present in a message; it **does not prove semantic entailment**, authority, or consensus. Summaries and answers are model interpretations, and even valid citations require human judgment. A misleading interpretation of a genuine quote can pass source matching. The conservative status guard uses English outcome vocabulary and literal approach names; it can miss valid non-English or paraphrased outcomes and keeps them uncertain.
-- Input is limited to 200,000 characters and 500 messages. A single message over 22,000 characters must be split before analysis. Each chunk uses a 22,000-character budget with modest overlap. A general pass is followed by up to eight keyword-prioritized objection-message passes (or one whole-chunk objection pass when none match). This bounds inference but can miss implicit or differently worded objections. The 240-second timeout is per model call.
-- Duplicate questions merge only when their normalized question text matches exactly. Paraphrased duplicates may remain separate. Implicit and evolving decisions are difficult for small models; coverage is not guaranteed.
-- GitHub import includes issue comments, not inline reviews, review submissions or attached files. It is unauthenticated and subject to public API limits, with at most 400 comments. Private repositories are unsupported.
-- Code context uses exact explicitly cited paths only; it does not detect renames or perform semantic compatibility checks. No comments or issues are posted to upstream repositories.
-- No auth, webhooks, vector search, automatic PR diff fetching or public deployment is implemented. Keep the server on loopback. This local Ollama architecture is intentionally not deployed to cloud hosting that cannot access your machine.
-- The app has no browser route persistence: refreshing returns to Overview, with all source records preserved in SQLite.
+## Event and AI disclosure
 
-## Event workflow
+The initial commit `6c9d3b9` contains only the original HACKATHON.md. Work remains on feature branch `feat/devrecall-mvp`; no additional work was committed directly to main. No Git remote was configured, so no public repository, PR merge, event submission or remote CI pass is claimed.
 
-The repository was initialized with **only the original `HACKATHON.md`** in initial commit `6c9d3b9`. Implementation is on **`feat/devrecall-mvp`**. No remote existed at inspection. A public repository, remote CI result, PR creation/merge and event submission cannot be claimed without configuring a remote; they remain delivery steps. All future changes should enter main through PRs using the provided template.
+Extraction/answering use Qwen2.5 3B through Ollama; actual model/version details are in HACKATHON.md and run metadata. Coding assistant: OpenAI Codex (exact underlying coding-model version not exposed).
 
-Coding assistant: OpenAI Codex; the exact underlying model version is not exposed to this session. See `HACKATHON.md` and the actual example run metadata for extraction-model disclosure.
-
-The adapter supplies the output schema in both the request's `format` and the model instructions, following [Ollama's structured-output guidance](https://docs.ollama.com/capabilities/structured-outputs).
-
-During this build, the temporary Ollama runtime and models were placed under `/private/tmp/devrecall-ollama`. To restart that verification runtime while those files remain available:
+The development Ollama binary/models remain under `/private/tmp/devrecall-ollama`. While those files exist, restart that temporary runtime with:
 
 ```sh
-OLLAMA_MODELS=/private/tmp/devrecall-ollama/models \
-OLLAMA_HOST=127.0.0.1:11434 \
-/private/tmp/devrecall-ollama/ollama serve
+OLLAMA_MODELS=/private/tmp/devrecall-ollama/models OLLAMA_HOST=127.0.0.1:11434 /private/tmp/devrecall-ollama/ollama serve
 ```
 
-Install Ollama normally for persistent use. Fixtures are never automatically seeded at startup; the current development database contains actual evaluation records created during verification.
+Install Ollama normally for persistent use. Fixtures are never automatically seeded.

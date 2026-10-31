@@ -9,5 +9,7 @@ __pycache__/
 *.db-wal
 node_modules/
 dist/
+.next/
+coverage/
 .DS_Store
 .impeccable/review/

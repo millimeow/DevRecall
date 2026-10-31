@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Code2, FileText, GitBranch, Github, Layers3, Link2, LoaderCircle, MessageSquare, Plus, Quote, Search, Settings2, ShieldCheck, Sparkles, Terminal, X } from 'lucide-react';
 import { api, post } from './api';
@@ -43,7 +45,7 @@ export default function App() {
     if (results[0].status === 'fulfilled') setHealth(results[0].value);
     if (results[1].status === 'fulfilled') setDiscussions(results[1].value);
     if (results[2].status === 'fulfilled') setDecisions(results[2].value);
-    if (results.some(r => r.status === 'rejected')) setError('Cannot reach the backend. Start the FastAPI server on port 8000.');
+    if (results.some(r => r.status === 'rejected')) setError('Cannot reach the backend. Start the Express server on port 8000.');
   }
   useEffect(() => { refresh(); const id = setInterval(() => api('/health').then(setHealth).catch(() => setHealth(null)), 30000); return () => clearInterval(id); }, []);
   useEffect(() => { window.scrollTo(0, 0); }, [view, discussion?.id]);

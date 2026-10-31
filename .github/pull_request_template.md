@@ -1,8 +1,8 @@
 ## Problem and resulting behavior
 
 ## Validation
-- [ ] Backend offline tests
-- [ ] Frontend production build
+- [ ] JavaScript backend offline tests (`npm test`)
+- [ ] Next.js production build (`npm run build`)
 - [ ] Real model smoke test, or explain why not run
 - [ ] Evidence correctness reviewed separately from extraction coverage
 

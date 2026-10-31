@@ -1,4 +1,6 @@
-# Actual verification record — 31 October 2026
+# Historical verification record — initial implementation, 31 October 2026
+
+This record describes the earlier Python/FastAPI and Vite implementation. The app has since been migrated to React/Next.js and Node/Express. See [the JavaScript migration record](JAVASCRIPT_MIGRATION.md) for current commands and checks. Historical model outputs remain unchanged for provenance.
 
 These are local checks, not an organizer benchmark score or a claim that remote CI passed.
 

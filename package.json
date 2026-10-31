@@ -1,0 +1,18 @@
+{
+  "name": "devrecall",
+  "version": "0.2.0",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --workspace backend",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "start:backend": "npm start --workspace backend",
+    "start:frontend": "npm start --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "test": "npm test --workspace backend",
+    "evaluate": "node backend/scripts/evaluate-discussion.js"
+  },
+  "devDependencies": { "concurrently": "^9.2.1" }
+}

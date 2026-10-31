@@ -44,6 +44,8 @@ The application uses a configurable local open-weight model. Actual executions a
 
 **Model execution method:** Ollama HTTP API, runtime version `0.40.13`. Configured model digest: `357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b`. The development verification used a temporary runtime and model directory under `/private/tmp/devrecall-ollama`; normal installation instructions are in README.md.
 
+**Application stack:** React.js with Next.js 16 App Router frontend; Express.js 5 on Node.js backend; JavaScript throughout application source. SQLite and the Ollama model integration are retained. Historical example outputs remain labeled; new JavaScript-runtime outputs use the `node_` filename prefix.
+
 ## Hackathon Details
 
 - **Event:** Hacktoberfest 2026 — Hack Day Sonipat
