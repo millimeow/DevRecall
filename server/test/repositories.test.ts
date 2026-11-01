@@ -62,14 +62,10 @@ describe('database and repositories', () => {
     expect(res.body.ai.configured).toBe(false);
     expect(res.body.status).toBe('ok');
   });
-  it('lists three unanalyzed demos without inventing GitHub IDs or metrics', async () => {
+  it('starts without the removed default demo repositories', async () => {
     const { app } = setup();
     const res = await request(app).get('/api/v1/demo-repositories');
-    expect(res.body.items.map((x: { full_name: string }) => x.full_name)).toEqual([
-      'pallets/flask',
-      'django/django',
-      'python/cpython',
-    ]);
+    expect(res.body.items).toEqual([]);
     expect(
       res.body.items.every(
         (x: { id: unknown; status: string }) => x.id === null && x.status === 'not_analyzed',

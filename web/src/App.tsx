@@ -32,9 +32,7 @@ export function App() {
   const [demos, setDemos] = useState<Demo[]>([]);
   const [health, setHealth] = useState<Health | null>(null);
   const [error, setError] = useState('');
-  const [selected, setSelected] = useState(
-    () => localStorage.getItem('devrecall:repo') || 'pallets/flask',
-  );
+  const [selected, setSelected] = useState(() => localStorage.getItem('devrecall:repo') || '');
   const [modal, setModal] = useState<string | null>(null);
   const [drawer, setDrawer] = useState(false);
   const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 650px)').matches);
@@ -65,6 +63,12 @@ export function App() {
       ]);
       setRepos(r.items);
       setDemos(d.items);
+      setSelected((current) => {
+        if ([...r.items, ...d.items].some((item) => item.full_name === current)) return current;
+        const next = r.items[0]?.full_name ?? d.items[0]?.full_name ?? '';
+        if (next) localStorage.setItem('devrecall:repo', next);
+        return next;
+      });
       setHealth(h);
       setError('');
     } catch (e) {

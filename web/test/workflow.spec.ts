@@ -1,4 +1,20 @@
 import { expect, test } from '@playwright/test';
+// Explicit test catalog exercises navigation independently of the user's empty default catalog.
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/v1/demo-repositories', (route) =>
+    route.fulfill({
+      json: {
+        items: ['pallets/flask', 'django/django', 'python/cpython'].map((full_name) => ({
+          full_name,
+          url: `https://github.com/${full_name}`,
+          description: 'Test catalog entry',
+          id: null,
+          status: 'not_analyzed',
+        })),
+      },
+    }),
+  );
+});
 test('mobile drawer keeps keyboard focus visible and returns it on Escape', async ({
   page,
 }, info) => {

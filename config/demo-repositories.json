@@ -1,17 +1,1 @@
-[
-  {
-    "full_name": "pallets/flask",
-    "url": "https://github.com/pallets/flask",
-    "description": "The Python micro framework for building web applications."
-  },
-  {
-    "full_name": "django/django",
-    "url": "https://github.com/django/django",
-    "description": "The web framework for perfectionists with deadlines."
-  },
-  {
-    "full_name": "python/cpython",
-    "url": "https://github.com/python/cpython",
-    "description": "The Python programming language."
-  }
-]
+[]
