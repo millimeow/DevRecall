@@ -141,7 +141,7 @@ export function App() {
           <span className="brand-mark">
             <BrainCircuit size={24} />
           </span>
-          DevRecall<span className="version-tag">v3</span>
+          DevRecall
         </a>
         <button
           className="icon-button mobile-close"
