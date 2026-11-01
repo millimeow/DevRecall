@@ -1,17 +1,24 @@
 ## Problem and resulting behavior
 
-## Models the product uses in this PR
-State exact integrated provider/model/version, or `none — selection pending`.
-Do not describe synthetic test-provider output as actual inference.
+Describe the user-visible change and link the relevant requirement or issue.
 
-## AI coding assistants
-OpenAI Codex (exact underlying model version not exposed).
+## Evidence and validation
 
-## Validation
-- [ ] PostgreSQL + MongoDB integration suite (`REQUIRE_DB_TESTS=1 python -m pytest backend/tests -q`)
-- [ ] Legacy evaluation regression (`npm run test:legacy`)
-- [ ] React/Vite production build (`npm run build`)
-- [ ] Actual model evaluation, or explain why not run
-- [ ] Evidence correctness reviewed separately from extraction coverage
+- [ ] `npm ci`
+- [ ] `npm test`
+- [ ] `npm run lint`
+- [ ] `npm run build`
+- [ ] `npm run test:e2e`
+- [ ] Actual GitHub input/output recorded in `examples/`; synthetic fixtures labeled.
+- [ ] Exact citations verified and repository isolation preserved.
+- [ ] No credentials, invented metrics, or fabricated AI output.
 
-## Limitations and remaining work
+## AI disclosure
+
+Coding assistant: OpenAI Codex (record session model if known).
+Runtime extraction/answer provider and model: explicitly state configuration, or "not configured".
+Explain AI-assisted code generation and human review performed.
+
+## Hackathon compliance and limitations
+
+Confirm HACKATHON.md-only first commit, MIT license, CI results, PR-only ingestion scope, and any missing official evaluation coverage.

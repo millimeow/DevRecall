@@ -1,0 +1,37 @@
+{
+  "synthetic": true,
+  "model": "qwen3.5:4b-q4_K_M",
+  "valid_evidence": true,
+  "recovered_rejection_reason": true,
+  "output": {
+    "decisions": [
+      {
+        "title": "Reject process-wide mutable cache for plugin discovery",
+        "summary": "Process-wide cache rejected due to tenant data leakage risk between interpreters.",
+        "reasoning": "Maintainer explicitly agreed to reject the proposal citing tenant isolation concerns and proposed an alternative interpreter-local cache with explicit invalidation.",
+        "outcome": "rejected",
+        "category": "architecture",
+        "confidence": 1,
+        "alternatives": [
+          {
+            "label": "interpreter-local cache with explicit invalidation",
+            "outcome": "accepted",
+            "reason": "Proposed by reviewer and confirmed by maintainer as the replacement strategy."
+          }
+        ],
+        "evidence": [
+          {
+            "source_id": "review",
+            "excerpt": "I reject the process-wide mutable cache because it leaks tenant data between independent interpreters. Consider an interpreter-local cache instead.",
+            "role": "rejection"
+          },
+          {
+            "source_id": "resolution",
+            "excerpt": "Agreed: reject the process-wide cache due to tenant isolation. We will use an interpreter-local cache, with explicit invalidation on plugin reload.",
+            "role": "decision"
+          }
+        ]
+      }
+    ]
+  }
+}
