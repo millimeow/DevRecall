@@ -117,6 +117,19 @@ describe('database and repositories', () => {
     expect(chat.status).toBe(503);
     expect(chat.body.error.code).toBe('AI_NOT_CONFIGURED');
   });
+  it('manual sync clears an old rate-limit delay after successful GitHub verification', async () => {
+    const { app, db } = setup();
+    const added = await request(app)
+      .post('/api/v1/repositories')
+      .send({ url: 'https://github.com/test/project' });
+    db.prepare(
+      "UPDATE index_jobs SET status='partial',retry_after='2099-01-01T00:00:00.000Z' WHERE id=?",
+    ).run(added.body.job.id);
+    const resumed = await request(app).post('/api/v1/repositories/123/sync').send({ mode: 'sync' });
+    expect(resumed.status).toBe(202);
+    expect(resumed.body.job.retry_after).toBeNull();
+    expect(resumed.body.job.id).toBe(added.body.job.id);
+  });
   it('rejects private metadata even when a token could read it', async () => {
     const gh = new GitHubClient('', async () => Response.json({ private: true }));
     await expect(gh.resolve('https://github.com/a/b')).rejects.toThrow(/public/i);

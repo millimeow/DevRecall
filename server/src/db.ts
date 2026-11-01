@@ -83,7 +83,7 @@ export function enqueue(db: DB, repoId: number, mode = 'full'): Job {
       .get(repoId) as Job | undefined;
     if (partial) {
       db.prepare(
-        "UPDATE index_jobs SET status='queued',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=?",
+        "UPDATE index_jobs SET status='queued',error_message=NULL,retry_after=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=?",
       ).run(partial.id);
       if (mode === 'reanalyze') {
         db.prepare(

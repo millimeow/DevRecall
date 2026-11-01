@@ -87,7 +87,7 @@ export function saveDecisions(
         d.category,
         d.confidence,
         model,
-        'v1',
+        'v2-source-bounded',
       );
       for (const alt of d.alternatives)
         db.prepare(

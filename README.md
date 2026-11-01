@@ -31,6 +31,8 @@ GitHub allows a small unauthenticated request budget, shared with the machine/ne
 
 ## Choose an open-weight model
 
+The tested profile for a **MacBook Pro M4 with 16 GB RAM** is `qwen3.5:4b-q4_K_M` through Ollama: 8K context, non-thinking bulk extraction and thinking chat. See [local setup and measured results](docs/LOCAL_MODEL_SETUP.md) and the [actual real-GitHub run](examples/qwen35-local-live-run.json). Use the explicit GGUF tag: the default `4b` alias selected an MLX backend that did not support structured output on the tested runtime.
+
 **No model is selected or downloaded automatically.** GitHub ingestion works without AI. Extraction then stops at an honest `Partial / AI not configured` state; chat returns `AI_NOT_CONFIGURED`, and the dashboard provides setup instructions.
 
 For an already installed Ollama model of your choice:
@@ -101,4 +103,4 @@ The referenced screenshot files, official event PDF, and auxiliary pack document
 
 ## Hackathon delivery
 
-MIT licensed. Coding assistant: OpenAI Codex. Runtime model: **not configured during this build**. `.github/pull_request_template.md`, CI, examples and a HACKATHON-only initial local commit are included. Implementation lives on a feature branch. The requested remote is [millimeow/DevRecall](https://github.com/millimeow/DevRecall); existing history must be preserved, including any earlier compliance gaps. Remote CI is only verified after an actual PR run; local passing checks are not a claim that GitHub Actions ran.
+MIT licensed. Coding assistant: OpenAI Codex. Initial implementation was verified without a runtime model; the later local acceptance run used **Qwen3.5 4B Q4_K_M via Ollama**. Fresh installations still require explicit model configuration. `.github/pull_request_template.md`, CI, examples and a HACKATHON-only initial local commit are included. Implementation lives on a feature branch in [PR #1](https://github.com/millimeow/DevRecall/pull/1); existing history is preserved, including inherited compliance gaps. Local checks and actual remote CI results are recorded separately.

@@ -72,7 +72,7 @@ Implementation checkmarks record verified code/tests, not actual-model accuracy.
 - [x] Run `npm test`, `npm run lint`, `npm run build`, real/manual smoke test.
 - [x] API integration coverage for full pagination, rate-limit handling, app restart, no PRs, duplicate sync, cross-repo citation isolation.
 - [ ] GitHub Actions CI on PRs, installs/builds/tests from clean checkout; all passing.
-- [ ] Complete `examples/` with actual input (repo URL + question) and actual output with evidence (do not invent output).
+- [x] Complete `examples/` with actual input (repo URL + question) and actual output with evidence (do not invent output).
 - [x] README explains GitHub token, model selection, limitations (public repos, PR only, large repo duration) and demo startup.
 - [x] Record honest release limitations and unmet official broader PEP discussion-ingestion requirement if still out-of-scope.
 

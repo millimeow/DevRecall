@@ -1,0 +1,299 @@
+{
+  "started_at": "2026-11-01T00:19:21.053Z",
+  "repository": "simonw/sqlite-diffable",
+  "synthetic": false,
+  "answers": [
+    {
+      "question": "Why was the --exclude option proposed for dumping tables?",
+      "seconds": 26.845,
+      "session_id": "9c0d393b-fc61-416c-b69a-c3a0bb33d545",
+      "content": "The --exclude option was proposed to allow users to dump all tables in a database while excluding specific unwanted tables, rather than having to maintain an explicit list of tables to export.",
+      "citations": [
+        {
+          "source_id": "195145678:pr_body:2242766997",
+          "excerpt": "It is already possible to explicit only dump some tables by listing their names.",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11",
+          "pr_number": 11,
+          "author_login": "giuli007",
+          "kind": "pr_body",
+          "created_at": "2024-12-18T17:30:20Z"
+        }
+      ],
+      "insufficient_evidence": false,
+      "claims": [
+        {
+          "text": "The --exclude option was proposed to allow users to dump all tables in a database while excluding specific unwanted tables, rather than having to maintain an explicit list of tables to export.",
+          "evidence": [
+            {
+              "source_id": "195145678:pr_body:2242766997",
+              "excerpt": "It is already possible to explicit only dump some tables by listing their names."
+            }
+          ]
+        }
+      ],
+      "coverage": "ready",
+      "verification": [
+        {
+          "url": "https://github.com/simonw/sqlite-diffable/pull/11",
+          "source_id": "195145678:pr_body:2242766997",
+          "exact_quote_verified": true,
+          "repo_id": 195145678
+        }
+      ]
+    },
+    {
+      "question": "Who said 'This is great, thank you very much' about the exclude change?",
+      "seconds": 20.163,
+      "session_id": "9c0d393b-fc61-416c-b69a-c3a0bb33d545",
+      "content": "simonw said 'This is great, thank you very much' about the exclude change.",
+      "citations": [
+        {
+          "source_id": "195145678:issue_comment_on_pr:2849954993",
+          "excerpt": "This is great, thank you very much.",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11#issuecomment-2849954993",
+          "pr_number": 11,
+          "author_login": "simonw",
+          "kind": "issue_comment_on_pr",
+          "created_at": "2025-05-05T05:33:50Z"
+        }
+      ],
+      "insufficient_evidence": false,
+      "claims": [
+        {
+          "text": "simonw said 'This is great, thank you very much' about the exclude change.",
+          "evidence": [
+            {
+              "source_id": "195145678:issue_comment_on_pr:2849954993",
+              "excerpt": "This is great, thank you very much."
+            }
+          ]
+        }
+      ],
+      "coverage": "ready",
+      "verification": [
+        {
+          "url": "https://github.com/simonw/sqlite-diffable/pull/11#issuecomment-2849954993",
+          "source_id": "195145678:issue_comment_on_pr:2849954993",
+          "exact_quote_verified": true,
+          "repo_id": 195145678
+        }
+      ]
+    },
+    {
+      "question": "What rationale was recorded for adopting a quantum-entanglement database engine?",
+      "seconds": 14.095,
+      "session_id": "9c0d393b-fc61-416c-b69a-c3a0bb33d545",
+      "content": "I couldn't find evidence for this in the indexed PRs/comments.",
+      "citations": [],
+      "insufficient_evidence": true,
+      "claims": [],
+      "coverage": "ready",
+      "verification": []
+    }
+  ],
+  "repo_id": 195145678,
+  "index": {
+    "repository": {
+      "id": 195145678,
+      "owner": "simonw",
+      "name": "sqlite-diffable",
+      "full_name": "simonw/sqlite-diffable",
+      "html_url": "https://github.com/simonw/sqlite-diffable",
+      "description": "Tools for dumping/loading a SQLite database to diffable directory structure",
+      "default_branch": "main",
+      "is_demo": 0,
+      "status": "ready",
+      "total_prs_known": 3,
+      "last_indexed_at": "2026-11-01 00:19:38",
+      "last_sync_at": "2026-11-01 00:19:18",
+      "last_error": null,
+      "created_at": "2026-11-01 00:03:58",
+      "updated_at": "2026-11-01 00:03:58"
+    },
+    "summary": {
+      "decisions": 1,
+      "rejected_removed": 0,
+      "prs_scanned": 3,
+      "prs_analyzed": 3,
+      "comments_scanned": 3,
+      "comments_analyzed": 3
+    },
+    "job": {
+      "id": "dfa72f4a-469e-47e1-b373-3156f4b077da",
+      "repo_id": 195145678,
+      "mode": "reanalyze",
+      "status": "completed",
+      "phase": "completed",
+      "last_pr_page": 1,
+      "prs_discovered": 3,
+      "prs_fetched": 3,
+      "prs_analyzed": 3,
+      "comments_fetched": 3,
+      "comments_analyzed": 3,
+      "error_message": null,
+      "retry_after": null,
+      "started_at": "2026-11-01 00:16:12",
+      "finished_at": "2026-11-01 00:19:38",
+      "updated_at": "2026-11-01 00:19:38",
+      "discovery_done": 1
+    }
+  },
+  "health": {
+    "status": "ok",
+    "ai": {
+      "configured": true,
+      "provider": "ollama",
+      "model": "qwen3.5:4b-q4_K_M"
+    }
+  },
+  "model_probe": {
+    "status": 200,
+    "model": "qwen3.5:4b-q4_K_M",
+    "details": {
+      "parent_model": "model.gguf",
+      "format": "gguf",
+      "family": "qwen35",
+      "families": ["qwen35"],
+      "parameter_size": "4.2B",
+      "quantization_level": "Q4_K_M",
+      "runner": "llamacpp"
+    },
+    "content": "{\n  \"status\": \"ready\"\n}",
+    "elapsed_seconds": 3.659,
+    "prompt_tokens": 18,
+    "generated_tokens": 12,
+    "generation_tokens_per_second": 32.00981634367873,
+    "loaded_models": [
+      {
+        "name": "qwen3.5:4b-q4_K_M",
+        "size": 3260872129,
+        "size_vram": 3260872129,
+        "context_length": 8192
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "id": "a6a944f8-587a-4e2b-9307-c374b6de9f6f",
+      "repo_id": 195145678,
+      "pr_number": 11,
+      "stable_key": "98b71b39f31627d3c9b46ac076cee233f8d665d351ce6652df1f06f2dddc7ff8",
+      "title": "Add --exclude parameter for table dumps",
+      "summary": "Proposes a single --exclude flag to omit specific tables from database dumps.",
+      "reasoning": "User requests convenience over listing all tables to exclude; author rejects regex/opt-out complexity.",
+      "outcome": "accepted",
+      "category": "feature",
+      "confidence": 0.95,
+      "model_name": "qwen3.5:4b-q4_K_M",
+      "extraction_version": "v2-source-bounded",
+      "created_at": "2026-11-01 00:19:34",
+      "updated_at": "2026-11-01 00:19:34",
+      "evidence": [
+        {
+          "excerpt": "This is great, thank you very much.",
+          "evidence_role": "decision",
+          "source_id": "195145678:issue_comment_on_pr:2849954993",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11#issuecomment-2849954993",
+          "pr_number": 11,
+          "author_login": "simonw",
+          "kind": "issue_comment_on_pr",
+          "created_at": "2025-05-05T05:33:50Z"
+        },
+        {
+          "excerpt": "This PR introduces the `--exclude` parameter that can be used to exclude specific tables.",
+          "evidence_role": "context",
+          "source_id": "195145678:pr_body:2242766997",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11",
+          "pr_number": 11,
+          "author_login": "giuli007",
+          "kind": "pr_body",
+          "created_at": "2024-12-18T17:30:20Z"
+        },
+        {
+          "excerpt": "I find myself wanting to dump all tables in a database with the exclusions of a few.",
+          "evidence_role": "reason",
+          "source_id": "195145678:pr_body:2242766997",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11",
+          "pr_number": 11,
+          "author_login": "giuli007",
+          "kind": "pr_body",
+          "created_at": "2024-12-18T17:30:20Z"
+        },
+        {
+          "excerpt": "Note2: I thought about implementing a more flexible logic for the new parameter, for example by providing a single comma-separated value instead of having to use multiple `--exclude`s  or even implementing it as an opt-out regex, but ultimately decided against the unnecessary",
+          "evidence_role": "reason",
+          "source_id": "195145678:pr_body:2242766997",
+          "html_url": "https://github.com/simonw/sqlite-diffable/pull/11",
+          "pr_number": 11,
+          "author_login": "giuli007",
+          "kind": "pr_body",
+          "created_at": "2024-12-18T17:30:20Z"
+        }
+      ],
+      "alternatives": [
+        {
+          "label": "Single comma-separated value for exclusions",
+          "outcome": "rejected",
+          "reason": "Author decided against unnecessary additional complexity"
+        },
+        {
+          "label": "Opt-out regex matching",
+          "outcome": "rejected",
+          "reason": "Author decided against unnecessary additional complexity"
+        }
+      ]
+    }
+  ],
+  "sync": {
+    "summary": {
+      "decisions": 1,
+      "rejected_removed": 0,
+      "prs_scanned": 3,
+      "prs_analyzed": 3,
+      "comments_scanned": 3,
+      "comments_analyzed": 3
+    },
+    "stable_ids_preserved": true,
+    "chat_messages": 6
+  },
+  "completed_at": "2026-11-01T00:20:47.019Z",
+  "result": "passed",
+  "poll_wait_seconds": 18.057,
+  "configuration": {
+    "AI_PROVIDER": "ollama",
+    "AI_MODEL": "qwen3.5:4b-q4_K_M",
+    "AI_TIMEOUT_MS": "240000",
+    "AI_CONTEXT_CHARS": "10000",
+    "AI_NUM_CTX": "8192",
+    "AI_NUM_PREDICT": "3072",
+    "AI_THINK": "true",
+    "AI_EXTRACTION_THINK": "false"
+  },
+  "hardware": {
+    "chip": "Apple M4",
+    "unified_memory_bytes": 17179869184
+  },
+  "timing_note": "poll_wait_seconds measures only the observer wait. Job timestamps include earlier failed setup attempts; answer seconds include independent live GitHub citation auditing.",
+  "browser_question": {
+    "question": "Why did the author reject comma-separated values and regex options for exclusions?",
+    "answer": "The author rejected comma-separated values and regex options for exclusions because they would add unnecessary additional complexity.",
+    "citations": [
+      {
+        "source_id": "195145678:pr_body:2242766997",
+        "excerpt": "Note2: I thought about implementing a more flexible logic for the new parameter, for example by providing a single comma-separated value instead of having to use multiple `--exclude`s  or even implementing it as an opt-out regex, but ultimately decided against the unnecessary",
+        "html_url": "https://github.com/simonw/sqlite-diffable/pull/11",
+        "pr_number": 11,
+        "author_login": "giuli007",
+        "kind": "pr_body",
+        "created_at": "2024-12-18T17:30:20Z"
+      }
+    ],
+    "exact_live_github_quotes_verified": true
+  },
+  "repository_isolation": {
+    "other_repo": "millimeow/DevRecall",
+    "status": 400,
+    "error_code": "INVALID_SESSION"
+  },
+  "model_digest": "d8b0f5e9760cd1682034f292d7ef72ec46f432149be0df7574bf2d6e92e38c04"
+}

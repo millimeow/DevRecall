@@ -1,4 +1,6 @@
 import { createHash } from 'node:crypto';
+import { z } from 'zod';
+import { groundedSchema } from './grounded-schema.js';
 import { type DB, jobById, repository, summary } from './db.js';
 import type { GitHubClient } from './github.js';
 import {
@@ -284,7 +286,12 @@ export class Worker {
       for (const chunk of chunkSources(sources)) {
         this.checkpoint();
         const result = extractionSchema.safeParse(
-          await this.ai.generate(extractionPrompt, sourceContext(chunk)),
+          await this.ai.generate(
+            extractionPrompt,
+            sourceContext(chunk),
+            groundedSchema(z.toJSONSchema(extractionSchema), chunk),
+            { task: 'extraction' },
+          ),
         );
         if (!result.success)
           throw new AppError(

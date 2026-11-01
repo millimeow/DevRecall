@@ -20,6 +20,66 @@ function db() {
   return d;
 }
 describe('provider boundary', () => {
+  it('can keep extraction fast while enabling thinking for grounded chat', async () => {
+    const requests: Record<string, unknown>[] = [];
+    const ai = makeAI(
+      {
+        AI_PROVIDER: 'ollama',
+        AI_MODEL: 'qwen3.5:4b-q4_K_M',
+        AI_THINK: 'true',
+        AI_EXTRACTION_THINK: 'false',
+      },
+      async (_url, init) => {
+        requests.push(JSON.parse(String(init?.body)));
+        return Response.json({ message: { content: '{}' } });
+      },
+    );
+    await ai.generate('system', 'sources', undefined, { task: 'extraction' });
+    await ai.generate('system', 'question', undefined, { task: 'answer' });
+    expect(requests.map((r) => r.think)).toEqual([false, true]);
+  });
+  it('passes the response schema and explicit local memory/thinking limits to Ollama', async () => {
+    let payload: Record<string, unknown> = {};
+    const schema = {
+      type: 'object',
+      properties: { decisions: { type: 'array' } },
+      required: ['decisions'],
+    };
+    const ai = makeAI(
+      {
+        AI_PROVIDER: 'ollama',
+        AI_MODEL: 'qwen3.5:4b',
+        AI_NUM_CTX: '8192',
+        AI_NUM_PREDICT: '3072',
+        AI_THINK: 'false',
+      },
+      async (_url, init) => {
+        payload = JSON.parse(String(init?.body));
+        return Response.json({ message: { content: '{"decisions":[]}' } });
+      },
+    );
+    await ai.generate('system', 'sources', schema);
+    expect(payload.format).toEqual(schema);
+    expect(payload.think).toBe(false);
+    expect(payload.options).toMatchObject({ num_ctx: 8192, num_predict: 3072 });
+  });
+  it.each(['0', '-1', 'not-a-number'])(
+    'rejects unsafe local context size %s before contacting the model',
+    async (value) => {
+      let contacted = false;
+      const ai = makeAI(
+        { AI_PROVIDER: 'ollama', AI_MODEL: 'qwen3.5:4b', AI_NUM_CTX: value },
+        async () => {
+          contacted = true;
+          return Response.json({ message: { content: '{}' } });
+        },
+      );
+      await expect(ai.generate('system', 'sources')).rejects.toMatchObject({
+        code: 'AI_CONFIGURATION',
+      });
+      expect(contacted).toBe(false);
+    },
+  );
   it('sends the explicitly chosen local model and rejects non-JSON output', async () => {
     let payload: Record<string, unknown> = {};
     const model = makeAI(

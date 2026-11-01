@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { makeAI, extractionPrompt, extractionSchema } from '../server/src/ai.js';
+import { groundedSchema } from '../server/src/grounded-schema.js';
+import { z } from 'zod';
 const fixture = JSON.parse(
   readFileSync(new URL('../fixtures/peplike-synthetic-discussion.json', import.meta.url), 'utf8'),
 ) as { discussion: { id: string; author: string; text: string }[] };
@@ -16,6 +18,11 @@ if (!ai.configured) {
       JSON.stringify(
         fixture.discussion.map((s) => ({ source_id: s.id, author: s.author, text: s.text })),
       ),
+      groundedSchema(
+        z.toJSONSchema(extractionSchema),
+        fixture.discussion.map((s) => ({ id: s.id, body: s.text })),
+      ),
+      { task: 'extraction' },
     ),
   );
   const sources = new Map(fixture.discussion.map((s) => [s.id, s.text]));

@@ -1,30 +1,27 @@
 ## Problem and resulting behavior
 
-The previous application uses superseded database/source workflows. This implementation follows PRD v3: a public GitHub repository URL starts a durable PR-only scan, stores every accessible PR conversation page in SQLite, extracts decisions with an explicitly configured open-weight model, and answers repository-scoped questions with validated GitHub citations.
+DevRecall follows PRD v3: React/Vite/Tailwind, Express/TypeScript, SQLite/FTS5, public GitHub URL-only input and durable PR-only indexing. It recovers decisions and answers repository-scoped questions with exact source citations. The superseded implementation remains in Git history.
 
-React/Vite/Tailwind dashboard includes Flask/Django/CPython as unanalyzed links, URL verification, actual DB metrics, durable progress/error states, decisions/search, and cited chat. Express/TypeScript serves the API and production UI. Ollama and self-hosted compatible model adapters are implemented; no model is silently selected.
+The local-model follow-up binds generated source-ID/excerpt pairs to original source fragments so the model cannot rewrite citation text. Independent runtime provenance validation remains unchanged. Ollama context/output/thinking controls are configurable, including fast extraction and thinking chat. Explicit Resume clears stale rate delays after successful GitHub verification.
 
 ## Evidence and validation
 
-- Clean `npm ci`, strict TypeScript/ESLint, unit/API tests, production build, desktop/mobile browser checks, and format checks were run locally; see `docs/VERIFICATION.md` for exact results.
-- Ingestion tests cover 101 PRs × 101 discussion comments plus reviews/inline comments, rate-limit disk resume, sync/delete reconciliation, rename recovery and analysis failures.
-- Review regressions cover stale evidence, stable IDs, long-comment retrieval, multiple excerpts, cross-repo citations/sessions, fabricated quotations, and URL validation.
-- Browser tests cover add/verify/queue, real demo navigation, keyboard drawer, cited chat and repository switching with explicitly synthetic test HTTP fixtures.
-- Actual live GitHub metadata resolution for `https://github.com/pallets/flask` is recorded under `examples/`; no real model extraction or fabricated answer is claimed.
-- Dependency audit reports zero vulnerabilities after development-tool patches.
+- **54 backend tests**, **7 desktop/mobile browser tests**, lint/strict TypeScript and production build pass locally. One mobile-only case is intentionally skipped on desktop.
+- Actual Qwen3.5 4B Q4_K_M via Ollama 0.40.13 on M4/16 GB fully analyzed **3 PRs and 3 comments** in independent public repo `simonw/sqlite-diffable`, recovering 1 validated decision and rejected alternatives.
+- Rationale and maintainer-feedback answers had URLs/quotes independently checked against live GitHub. The browser-submitted rejection question also succeeded. Unsupported quantum-engine question returned insufficient evidence; Sync kept counts/IDs/history; cross-repo session reuse returned `INVALID_SESSION`.
+- `examples/qwen35-local-live-run.json` records actual output, model digest, configuration and verification. A separate actual-model synthetic PEP fixture run passed and is explicitly labeled, never seeded into the app.
+- Tests cover full pagination (101 PRs × 101 comments), all source kinds, disk/rate recovery, rename/resume, source deletion, stable IDs, stale analysis, multiple excerpts and source/session isolation.
+- JSON schema safety tests reject edited whitespace/markup, ellipses, wrong-source pairings and foreign IDs. Independent review found no material regression.
+- See `docs/VERIFICATION.md` and `docs/LOCAL_MODEL_SETUP.md` for exact results and limits.
 
 ## AI disclosure
 
-Coding assistant: OpenAI Codex. The session's exact underlying model identifier is not exposed here. Codex generated implementation, tests and documentation; independent code/visual reviewers identified issues subsequently fixed with regression tests. Human review is still required.
+Coding assistant: OpenAI Codex; exact underlying session model ID is not exposed. Code, tests and docs were AI-assisted with independent agent code/visual review; human review is still required.
 
-Runtime provider/model during build: **not configured**. Model calls in automated tests are explicitly injected test doubles. The actual adapter supports user-selected open-weight models and fails clearly without configuration. Source provenance and exact quote checks do not prove paraphrase entailment or extraction accuracy.
+Runtime: Apache-2.0 Qwen3.5 4B Q4_K_M, local Ollama/llama.cpp, 8K context, non-thinking extraction and thinking chat. Fresh installs require explicit configuration. The tested profile pins GGUF because the default MLX alias failed structured-output probing on this runtime. GitHub credentials stayed in backend/test memory and were not committed or sent to the browser. Provenance is not proof of general semantic accuracy.
 
 ## Hackathon compliance and limitations
 
-- Local initial commit `c4833b4` contains only `HACKATHON.md`; existing target history is preserved. Target root `6c9d3b9` also contains only `HACKATHON.md`; inherited root `b744502` contains LICENSE/README and is disclosed as an existing event-compliance gap, not rewritten.
-- MIT license, README, PR template, CI workflow, real input/output examples and test-only PEP-style harness are included.
-- PR-only UI intentionally does not satisfy broader PEP/forum ingestion evaluation. A real selected-model demonstration remains outstanding.
-- Original screenshot/PDF and auxiliary pack documents were missing; the UI follows the supplied PRD visual description. Missing architecture/API/test documents have implementation replacements.
-- One local API/worker process per SQLite DB; inaccessible endpoints remain visibly partial; huge repos require API/model time. Complete changed-path analysis, authentication, semantic reranking and automatic future-PR warnings are deferred.
+MIT, README, CI, PR template, real examples and a test-only PEP harness are included. No direct merge to main or history rewrite. Roots `c4833b4`/`6c9d3b9` contain only HACKATHON.md; inherited `b744502` contains LICENSE/README and remains a disclosed organizer-compliance gap.
 
-This PR replaces the superseded application tree; legacy implementation remains accessible through Git history. No merge to main or history rewrite is requested.
+The 3-PR live sample is not a broad benchmark. Large repos need time; inaccessible endpoints remain partial. One local worker/DB, no authentication or complete changed-path graph. PR-only UI does not ingest PEP forums, and the synthetic harness is not blind evaluation coverage. Original screenshot/PDF references were missing, so no pixel-exact or complete event-compliance claim is made.
