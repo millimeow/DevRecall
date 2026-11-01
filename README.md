@@ -1,140 +1,106 @@
 # DevRecall
 
-Every decision has a reason. Never lose it.
+Recover the **why** behind a public GitHub repository: index pull requests and their conversations, extract engineering decisions with your selected open-weight model, and ask repository-specific questions with exact GitHub citations.
 
-DevRecall recovers engineering decisions, rejected alternatives and their original evidence from public discussions. Built for Hacktoberfest 2026 Problem 06. The [v2 implementation plan](CODEX_IMPLEMENTATION_PLAN.md) is authoritative; it supersedes the original PRD's SQLite and model defaults.
+React + Vite + Tailwind CSS · Node.js + Express + TypeScript · SQLite + FTS5
 
-## Current implementation
+## Run locally
 
-- FastAPI with PostgreSQL/SQLAlchemy/Alembic for GitHub numeric repository IDs, decision UUID relationships, jobs and source checkpoints.
-- MongoDB for decisions, rejected alternatives, reasoning, evidence, original message versions and analysis runs. A separate `decision_revisions` collection preserves history without growing one document indefinitely.
-- SQL foreign keys, source/topic uniqueness, and a partial unique index preventing overlapping repository scans. Titles are not decision identities.
-- Retryable SQL/Mongo write protocol, readiness checks, repository-scoped cached reads, and an explicit reconciliation command. Prior published revisions remain readable during interrupted reanalysis.
-- Public GitHub metadata resolution and bounded issue/PR/comment/review ingestion. Existing known aliases load cache without GitHub or inference calls. A newly encountered alias requires GitHub resolution; an existing numeric ID keeps its decisions after rename/transfer.
-- Durable polling worker, initial jobs, manual-only sync, source hash deduplication, and explicit continuation after partial scans. Read APIs never enqueue jobs.
-- React + Vite + Tailwind UI for repository input, job progress, cached decisions, evidence, keyword search, scoped Q&A and exact-path PR context.
-- Separate transient PEP-discussion evaluation API/UI/CLI. It never fetches a final PEP or fabricates a repository ID.
-
-**AI provider/model remain unselected.** Production has an `AIProvider` protocol and an unavailable implementation only. Blank configuration reports `model_not_configured`; configured names without an implemented adapter report `adapter_not_implemented`. No production test provider or placeholder decisions are shipped. Repository registration and cached reads work without a model; new scans and sync require a real adapter. Actual extraction, model-dependent Q&A, long-discussion model reconciliation and a fresh blind evaluation are therefore not operational yet.
-
-## Setup
-
-Requires Python 3.11+ (tested with 3.14), Node 22.13+, PostgreSQL 18 and MongoDB 8.0. Use local installations or the optional Compose file:
+Requires Node.js **22.13+** (Node 22 LTS recommended), npm, and disk space for your SQLite database. Native SQLite bindings may need a C++ toolchain if a prebuilt binary is unavailable.
 
 ```sh
-docker compose up -d
-```
-
-Compose uses local-only development credentials. Set root `.env` from `.env.example`, replacing the database placeholders. With Compose:
-
-```dotenv
-POSTGRES_DATABASE_URL=postgresql+psycopg://devrecall:local_dev_only@127.0.0.1:5432/devrecall
-MONGODB_URI=mongodb://127.0.0.1:27017
-MONGODB_DATABASE=devrecall
-GITHUB_TOKEN=
-AI_PROVIDER=
-AI_MODEL=
-AI_BASE_URL=
-AI_API_KEY=
-API_BASE_URL=http://127.0.0.1:8000
-```
-
-GitHub token is optional for public API access. No vendor/model is selected automatically. Do not put credentials in Git. Keep the API on loopback: this is a single-user tool without authentication.
-
-From the repository root:
-
-```sh
-python3 -m venv backend/.venv
-source backend/.venv/bin/activate
-pip install -r backend/requirements.lock.txt
-pip install --no-deps -e backend
 npm ci
-python -m alembic -c backend/alembic.ini upgrade head
-python -m app.db.manage indexes
+cp .env.example .env
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. Vite proxies `/api` to FastAPI on port 8000. Start the durable worker separately, with the virtual environment activated:
+Open [DevRecall](http://127.0.0.1:5174). The API listens on `127.0.0.1:3001`. Port 5174 is intentional: another application already occupied 5173 during development. The frontend fails clearly if its port is busy. Production serves both UI and API from Express:
 
 ```sh
-python -m app.workers.ingestion_worker
-```
-
-It polls explicitly queued jobs only; it never schedules automatic synchronization. `--once` handles at most one queued/recoverable job. A PostgreSQL advisory lock serializes worker processes, allowing safe recovery of an interrupted running job. Batches are capped at 50 sources; partial/failed jobs require another explicit **Sync Repository** action to resume. Do not expose Vite or these databases publicly. For a frontend build, use `npm run build`; deployment of the resulting `frontend/dist` needs a same-origin `/api` reverse proxy.
-
-## Use
-
-1. Enter a public repository URL. Known aliases return saved results immediately. New repositories resolve the permanent GitHub ID and register; without a model, analysis remains explicitly blocked.
-2. Once a selected, compliant open-weight provider is implemented/configured, new repositories enqueue initial analysis. Existing repositories require **Sync Repository**.
-3. Inspect decision alternatives, reasons, uncertainty, exact quotations and original messages. Quote presence does not prove consensus or semantic entailment.
-4. Search saved repository content, ask an evidence-grounded question, or supply changed paths for advisory historical context. Nothing is posted to upstream GitHub repositories.
-5. Use **Discussion evaluation** for pasted text or JSON messages. Results are transient and include the original supplied messages. Do not include the corresponding final PEP.
-
-Evaluation CLI (requires an actual configured adapter; otherwise exits without writing an output):
-
-```sh
-npm run evaluate -- --input examples/public_discussion.json --output /tmp/devrecall-evaluation.json
-```
-
-## Databases and failure recovery
-
-`repositories.repo_id` is GitHub's numeric ID. `decisions.decision_id` is a UUID reused for `(repo_id, source_key, normalized topic_key)`; Mongo `decisions._id` uses the same UUID string. Source/topic keys must be stable across title changes. The worker passes existing topic mappings to the provider; duplicate candidate keys fail explicitly rather than silently merging different topics.
-
-New decisions commit a thin `pending` SQL row, write the Mongo revision and current document with majority acknowledgement, then publish the SQL revision as `ready`. Failures retain `error`/pending state; published earlier revisions remain available. Read APIs verify document ownership and revision. Missing documents return 503, never synthetic detail. Reconciliation does not delete orphaned evidence:
-
-```sh
-python -m app.db.manage reconcile
-python -m app.db.manage reconcile --repair
-```
-
-Repair publishes already-written pending revisions. Missing published documents without a pending snapshot are reported for operator restoration. Messages are stored separately, with content-versioned IDs; previous evidence stays inspectable after GitHub edits. Checkpoints and source hashes advance only after successful source publication. A failed source may have individual verified decisions already committed, but its job is never falsely marked complete.
-
-Manual sync traverses public source metadata and fetches source content to detect edits, then invokes inference only for changed hashes. It currently favors correctness over API efficiency: it does not use a timestamp-only incremental shortcut, which could miss review changes. Comment/review endpoints are bounded to 20 pages each. Incomplete sources are not analyzed. Pagination limits and rate limits produce visible failed/partial jobs.
-
-## Tests
-
-Activate the virtual environment first. Offline tests run without databases; integration tests explicitly skip when database URLs are absent:
-
-```sh
-python -m pytest backend/tests -q
-npm run test:legacy
 npm run build
+npm start
 ```
 
-For full validation, provision an **isolated disposable PostgreSQL database whose name ends in `_test`**. The integration suite truncates its four application tables. Mongo tests create/drop uniquely named temporary databases.
+Then open [the production app](http://127.0.0.1:3001). The database defaults to `data/devrecall.db` at the project root, independent of the working directory. Set an absolute `DATABASE_PATH` to relocate it. Run **one API/worker process per database**; this local MVP does not coordinate distributed workers.
+
+## GitHub access
+
+Set `GITHUB_TOKEN` privately in `.env` for practical indexing. Use public read-only access; the app rejects repositories marked private even if your token can read them. No repository code is cloned or executed, and DevRecall never posts comments or issues.
+
+GitHub allows a small unauthenticated request budget, shared with the machine/network. The implementation handles primary and secondary rate limits, displays the error and retry time, and persists its cursor. A rate limit during initial verification means the repository cannot yet be added; retry after reset or configure a token. Tokens remain in the backend and never use a `VITE_` variable.
+
+## Choose an open-weight model
+
+The tested profile for a **MacBook Pro M4 with 16 GB RAM** is `qwen3.5:4b-q4_K_M` through Ollama: 8K context, non-thinking bulk extraction and thinking chat. See [local setup and measured results](docs/LOCAL_MODEL_SETUP.md) and the [actual real-GitHub run](examples/qwen35-local-live-run.json). Use the explicit GGUF tag: the default `4b` alias selected an MLX backend that did not support structured output on the tested runtime.
+
+**No model is selected or downloaded automatically.** GitHub ingestion works without AI. Extraction then stops at an honest `Partial / AI not configured` state; chat returns `AI_NOT_CONFIGURED`, and the dashboard provides setup instructions.
+
+For an already installed Ollama model of your choice:
+
+```dotenv
+AI_PROVIDER=ollama
+AI_MODEL=your-installed-model-name
+AI_BASE_URL=http://127.0.0.1:11434
+```
+
+For a self-hosted vLLM, llama.cpp, or other compatible server:
+
+```dotenv
+AI_PROVIDER=openai-compatible
+AI_MODEL=your-served-model-name
+AI_BASE_URL=http://127.0.0.1:8000/v1
+AI_API_KEY=
+```
+
+Select an open-weight model whose license and structured-JSON capability suit your use. Restart after changing `.env`, then choose **Resume analysis**. Use **Re-analyze all decisions** (brain icon beside Sync) to force re-extraction, including already analyzed PRs. Provider errors, invalid JSON, missing sources, wrong-repository evidence, and fabricated quotes fail closed rather than producing a fake answer. Model-generated paraphrases still require human judgment: exact source provenance does not prove semantic entailment.
+
+`AI_CONTEXT_CHARS` bounds source text per extraction chunk / chat context; `AI_TIMEOUT_MS` bounds each model request. Long source text is split completely during extraction. Q&A retrieves query-centered passages so late matches are retained. Chunking can separate a proposal from its later resolution; uncertain output and direct evidence inspection remain important.
+
+## Walkthrough
+
+1. Select `pallets/flask`, `django/django`, or `python/cpython` in the sidebar. All three begin **Not analyzed**, with no fictional metrics.
+2. Choose **Analyze Repository**, verify its real GitHub metadata, then analyze. Or add any public `https://github.com/owner/repo` URL; trailing `/` and `.git` are accepted.
+3. Watch saved progress. All PR states and every accessible API page are traversed; comments include PR discussion comments, review bodies, and inline review comments. Large repositories require substantial API/model time.
+4. With AI configured, browse **Decisions** and **Rejected / Removed**, search, and inspect exact evidence excerpts.
+5. Ask a specific repository question. Each factual claim needs validated evidence from that repository. When retrieval cannot answer, the app says it could not find evidence. Chats survive reload and are repository-scoped.
+6. **Sync repository** refreshes all PR conversations and reconciles deleted comments without duplicating records. Unchanged text avoids repeat model calls. Resume replays saved pages; analysis replacements are atomic, stale decisions are hidden, and stable IDs are preserved where possible.
+
+## Verify
 
 ```sh
-export TEST_POSTGRES_DATABASE_URL='postgresql+psycopg://USER:PASSWORD@127.0.0.1:5432/devrecall_test'
-export TEST_MONGODB_URI='mongodb://127.0.0.1:27017'
-REQUIRE_DB_TESTS=1 python -m pytest backend/tests -q
+npm test
+npm run lint
+npm run build
+npx playwright install chromium
+npm run test:e2e
+npm run format:check
 ```
 
-CI provisions PostgreSQL/MongoDB services, requires integration tests (missing configuration fails), and runs the frontend build plus preserved legacy evaluation regression. Tests use synthetic providers and simulated GitHub transport, with real database servers; they are not evidence of actual model accuracy or a live crawl.
+API tests use Supertest and need loopback networking. Browser tests launch isolated servers on **4173 / 4311**, with an in-memory database and explicitly synthetic HTTP fixtures. They do not use or mutate an existing app on port 5173, nor require GitHub/model credentials. Unit/integration tests exercise real SQLite and FTS5 with injected HTTP/model boundaries. See [TEST_PLAN](docs/TEST_PLAN.md) and [verification report](docs/VERIFICATION.md) for actual results.
 
-## Layout
+The offline synthetic PEP-discussion extractor harness uses your configured model:
 
-```text
-backend/app/
-  main.py, config.py, schemas.py, evidence.py
-  db/             SQL models, real connections, Mongo indexes, administration
-  services/       persistence saga, GitHub client, ingestion, AI protocol
-  workers/        durable polling worker
-backend/alembic/  versioned PostgreSQL migration
-backend/tests/    offline and real-database integration tests
-backend/src/      preserved legacy Express/SQLite evaluation implementation
-backend/test/     preserved legacy regression tests
-frontend/src/     React repository/evaluation UI, existing design system
-examples/         historical real outputs and labeled synthetic inputs
+```sh
+node --env-file=.env --import tsx scripts/evaluate-pep.ts
 ```
 
-Existing SQLite data is not automatically migrated: old discussions have no trustworthy GitHub repository ownership. The old evaluator and outputs are preserved under `backend/src`, `backend/scripts/evaluate-discussion.js`, and `examples/`; `npm run evaluate:legacy` targets that old API only. They are not v2 output claims. See [legacy setup](docs/LEGACY_README.md). Do not run both APIs on the same port.
+The fixture excludes a final PEP and is explicitly synthetic. It is never seeded into the product. Without a configured model, evaluation exits with a configuration error and produces no invented output.
 
-## Remaining limitations and compliance
+## Architecture and API
 
-- A compliant real provider/model must be selected and integrated; this includes bounded chunking/reconciliation, actual inference validation and fresh blind PEP evaluation. Setting environment names alone cannot enable inference.
-- Pasted evaluation currently supports transient results only, not attachment to a selected real repository.
-- Deleted/retracted decisions are retained as historical records; automatic source-wide supersession is not yet implemented. A model must maintain stable topic keys; semantic identity cannot be proven by the persistence layer.
-- A source exceeding endpoint bounds needs a higher bounded limit or a smaller discussion import. A resumed scan uses stable created-order pages; source deletion during pagination can shift offsets. A subsequent full manual sync is the recovery path.
-- Search is bounded keyword matching, not vector search. PR context uses supplied exact paths, without automatic PR diff fetching or rename tracking. GitHub Discussions/forums need separate adapters.
-- The initial commit `6c9d3b9` contains only `HACKATHON.md`. Work remains on `feat/devrecall-mvp`; no history rewrite or direct-to-main commit was performed. No Git remote is configured, so public visibility, event submission, PR creation and remote CI success cannot be claimed.
-- Historic Qwen/Ollama outputs remain intact and labeled. No new AI output or benchmark success is claimed for v2. Coding assistance: OpenAI Codex.
+- [Architecture](docs/ARCHITECTURE.md): migrations, resumable jobs, normalization and evidence validation.
+- [API contract](docs/API_SPEC.md): versioned repository, job, decision and chat endpoints.
+- [Examples](examples/README.md): recorded real behavior and reproducible requests, with limitations labeled.
+- [Product requirements](PRD.md) and [ordered checklist](CODEX_TASKS.md).
+
+## Scope and limitations
+
+Public **GitHub.com repositories only**; PR bodies and PR-linked comments/reviews only. No standalone issues, GitHub Discussions, forums, PEP ingestion in the UI, upload input, private repos, accounts, or automatic external comments. This intentionally does not cover the organizer's full PEP-discussion ingestion evaluation. Related-decision warnings on future code changes and semantic reranking are deferred. Paths are recorded from inline review comments, not a complete files-changed graph.
+
+This is a single-user local application: bind to loopback, or add authentication and deployment-specific origin controls before exposing it. `APP_ORIGIN` adds a trusted UI origin for deployments. Source text renders as plain React text, not executable HTML. A hard process kill is recoverable through SQLite checkpoints; a graceful shutdown waits for the in-flight bounded API/model request.
+
+The referenced screenshot files, official event PDF, and auxiliary pack documents were not present in the supplied files. The UI implements the PRD's navy sidebar, light dashboard, violet accent and specified workflows; pixel-for-pixel screenshot fidelity cannot be claimed. The architecture/API/test documentation in this repository describes the implementation and is newly written, not purported to be the missing originals.
+
+## Hackathon delivery
+
+MIT licensed. Coding assistant: OpenAI Codex. Initial implementation was verified without a runtime model; the later local acceptance run used **Qwen3.5 4B Q4_K_M via Ollama**. Fresh installations still require explicit model configuration. `.github/pull_request_template.md`, CI, examples and a HACKATHON-only initial local commit are included. Implementation lives on a feature branch in [PR #1](https://github.com/millimeow/DevRecall/pull/1); existing history is preserved, including inherited compliance gaps. Local checks and actual remote CI results are recorded separately.
